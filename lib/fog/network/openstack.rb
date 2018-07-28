@@ -3,7 +3,7 @@
 module Fog
   module Network
     class OpenStack < Fog::Service
-      SUPPORTED_VERSIONS = /v2(\.0)*/
+      SUPPORTED_VERSIONS = /v2(\.0)*|v1/
 
       requires :openstack_auth_url
       recognizes :openstack_auth_token, :openstack_management_url,
@@ -15,7 +15,7 @@ module Fog
                  :openstack_project_name, :openstack_project_id,
                  :openstack_project_domain, :openstack_user_domain, :openstack_domain_name,
                  :openstack_project_domain_id, :openstack_user_domain_id, :openstack_domain_id,
-                 :openstack_identity_prefix
+                 :openstack_identity_prefix, :openstack_path
 
       ## MODELS
       #
@@ -466,6 +466,10 @@ module Fog
 
         def set_api_path
           @path.sub!(%r{/$}, '')
+          if @path.nil? || @path == ""
+            @path = openstack_options[:openstack_path]
+          end
+
           unless @path.match(SUPPORTED_VERSIONS)
             @path = Fog::OpenStack.get_supported_version_path(SUPPORTED_VERSIONS,
                                                               @openstack_management_uri,

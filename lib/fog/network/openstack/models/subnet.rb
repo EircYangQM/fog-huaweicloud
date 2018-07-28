@@ -7,7 +7,7 @@ module Fog
         identity :id
 
         attribute :name
-        attribute :network_id
+        attribute :network_id        #doesnot require in v1
         attribute :cidr
         attribute :ip_version
         attribute :gateway_ip
@@ -16,9 +16,10 @@ module Fog
         attribute :host_routes
         attribute :enable_dhcp
         attribute :tenant_id
+        attribute :vpc_id            #require for v1
 
         def create
-          requires :network_id, :cidr, :ip_version
+          requires :cidr, :ip_version
           merge_attributes(service.create_subnet(network_id,
                                                  cidr,
                                                  ip_version,

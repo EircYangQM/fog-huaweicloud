@@ -16,6 +16,7 @@ module Fog
       attr_reader :openstack_project_id
       attr_reader :openstack_project_domain_id
       attr_reader :openstack_identity_prefix
+      attr_reader :openstack_path
 
       # fallback
       def self.not_found_class
