@@ -36,7 +36,7 @@ module Fog
 
         def destroy
           requires :id
-          service.delete_subnet(id)
+          service.delete_subnet(id, vpc_id)
           true
         end
       end

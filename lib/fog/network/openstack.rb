@@ -15,7 +15,7 @@ module Fog
                  :openstack_project_name, :openstack_project_id,
                  :openstack_project_domain, :openstack_user_domain, :openstack_domain_name,
                  :openstack_project_domain_id, :openstack_user_domain_id, :openstack_domain_id,
-                 :openstack_identity_prefix, :openstack_path
+                 :openstack_identity_prefix, :openstack_path, :openstack_version
 
       ## MODELS
       #
@@ -58,6 +58,8 @@ module Fog
       collection  :security_group_rules
       model       :network_ip_availability
       collection  :network_ip_availabilities
+      model       :vpc
+      collection  :vpcs
 
       ## REQUESTS
       #
@@ -260,6 +262,12 @@ module Fog
       request :get_quota
       request :update_quota
       request :delete_quota
+
+      # Vpc
+      request :get_vpc
+      request :list_vpcs
+      request :create_vpc
+      request :delete_vpc
 
       class Mock
         def self.data
