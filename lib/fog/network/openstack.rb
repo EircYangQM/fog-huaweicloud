@@ -478,7 +478,7 @@ module Fog
             @path = openstack_options[:openstack_path]
           end
 
-          unless @path.match(SUPPORTED_VERSIONS)
+          if @path.nil? || !@path.match(SUPPORTED_VERSIONS)
             @path = Fog::OpenStack.get_supported_version_path(SUPPORTED_VERSIONS,
                                                               @openstack_management_uri,
                                                               @auth_token,
