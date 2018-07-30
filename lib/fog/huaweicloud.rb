@@ -119,6 +119,10 @@ module Fog
       attr_accessor :token_cache
     end
 
+    def self.[](service_name)
+      eval("Fog::#{service_name}::HuaweiCloud")
+    end
+
     def self.clear_token_cache
       Fog::HuaweiCloud.token_cache = {}
     end
