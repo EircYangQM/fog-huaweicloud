@@ -1,17 +1,17 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'fog/openstack/version'
+require 'fog/huaweicloud/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = "fog-openstack"
-  spec.version       = Fog::OpenStack::VERSION
+  spec.name          = "fog-huaweicloud"
+  spec.version       = Fog::HuaweiCloud::VERSION
   spec.authors       = ["Matt Darby"]
   spec.email         = ["matt.darby@rackspace.com"]
 
-  spec.summary       = %q{OpenStack fog provider gem}
-  spec.description   = %q{OpenStack fog provider gem.}
-  spec.homepage      = "https://github.com/fog/fog-openstack"
+  spec.summary       = %q{HuaweiCloud fog provider gem}
+  spec.description   = %q{HuaweiCloud fog provider gem.}
+  spec.homepage      = "https://github.com/EircYangQM/fog-huaweicloud"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }

@@ -1,15 +1,15 @@
 - project:
     check:
       jobs:
-        - fog-openstack-unittest-test
-        - fog-openstack-unittest-spec
+        - fog-huaweicloud-unittest-test
+        - fog-huaweicloud-unittest-spec
 
 - job:
-    name: fog-openstack-unittest-test
+    name: fog-huaweicloud-unittest-test
     parent: init-test
     description: |
       fog-openstack unittest test tests
-    run: playbooks/fog-openstack-unittest-test/run.yaml
+    run: playbooks/fog-huaweicloud-unittest-test/run.yaml
     vars:
       rvm:
         2.2.10
@@ -20,11 +20,11 @@
     nodeset: ubuntu-xenial
 
 - job:
-    name: fog-openstack-unittest-spec
+    name: fog-huaweicloud-unittest-spec
     parent: init-test
     description: |
-      fog-openstack unittest spec tests
-    run: playbooks/fog-openstack-unittest-spec/run.yaml
+      fog-huaweicloud unittest spec tests
+    run: playbooks/fog-huaweicloud-unittest-spec/run.yaml
     vars:
       rvm:
         2.2.10

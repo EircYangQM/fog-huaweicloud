@@ -11,7 +11,7 @@ task :test => 'tests:unit'
 task :spec => "tests:spec"
 
 namespace :tests do
-  desc 'Run fog-openstack tests with Minitest'
+  desc 'Run fog-huaweicloud tests with Minitest'
   Rake::TestTask.new do |t|
     ENV['FOG_MOCK']= ENV['FOG_MOCK'].nil? ? 'true' : ENV['FOG_MOCK']
 
@@ -21,7 +21,7 @@ namespace :tests do
     t.verbose = true
   end
 
-  desc 'Run fog-openstack tests with RSpec and VCR'
+  desc 'Run fog-huaweicloud tests with RSpec and VCR'
   Rake::TestTask.new do |t|
     t.name = 'spec'
     t.libs.push [ "lib", "spec" ]
