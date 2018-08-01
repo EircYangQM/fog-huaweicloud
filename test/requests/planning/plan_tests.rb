@@ -1,4 +1,5 @@
 require "test_helper"
+require 'fog/planning/huaweicloud'
 
 describe "Fog::HuaweiCloud[:planning] | Planning plan requests" do
   before do
