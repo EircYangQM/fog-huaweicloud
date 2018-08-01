@@ -8,4 +8,4 @@
 
 ## Support and Feedback
 
-Your feedback is appreciated! If you have specific issues with the **fog-openstack** SDK, you should file an [issue via Github](https://github.com/fog/fog-openstack/issues).
+Your feedback is appreciated! If you have specific issues with the **fog-huaweicloud** SDK, you should file an [issue via Github](https://github.com/fog/fog-openstack/issues).

@@ -1,8 +1,8 @@
-# OpenStack Orchestration
-The mission of the OpenStack Orchestration program is to create a human- and machine-accessible service for managing the entire lifecycle of infrastructure and applications within OpenStack clouds.
+# HuaweiCloud Orchestration
+The mission of the HuaweiCloud Orchestration program is to create a human- and machine-accessible service for managing the entire lifecycle of infrastructure and applications within HuaweiCloud clouds.
 
 ## Heat
-Heat is the main project in the OpenStack Orchestration program. It implements an orchestration engine to launch multiple composite cloud applications based on templates in the form of text files that can be treated like code. A native Heat template format is evolving, but Heat also endeavours to provide compatibility with the AWS CloudFormation template format, so that many existing CloudFormation templates can be launched on OpenStack. Heat provides both an OpenStack-native ReST API and a CloudFormation-compatible Query API.
+Heat is the main project in the HuaweiCloud Orchestration program. It implements an orchestration engine to launch multiple composite cloud applications based on templates in the form of text files that can be treated like code. A native Heat template format is evolving, but Heat also endeavours to provide compatibility with the AWS CloudFormation template format, so that many existing CloudFormation templates can be launched on HuaweiCloud. Heat provides both an HuaweiCloud-native ReST API and a CloudFormation-compatible Query API.
 
 *Why ‘Heat’? It makes the clouds rise!*
 
@@ -11,25 +11,25 @@ Heat is the main project in the OpenStack Orchestration program. It implements a
 * A Heat template describes the infrastructure for a cloud application in a text file that is readable and writable by humans, and can be checked into version control, diffed, &c.
 * Infrastructure resources that can be described include: servers, floating ips, volumes, security groups, users, etc.
 * Heat also provides an autoscaling service that integrates with Ceilometer, so you can include a scaling group as a resource in a template.
-* Templates can also specify the relationships between resources (e.g. this volume is connected to this server). This enables Heat to call out to the OpenStack APIs to create all of your infrastructure in the correct order to completely launch your application.
+* Templates can also specify the relationships between resources (e.g. this volume is connected to this server). This enables Heat to call out to the HuaweiCloud APIs to create all of your infrastructure in the correct order to completely launch your application.
 * Heat manages the whole lifecycle of the application - when you need to change your infrastructure, simply modify the template and use it to update your existing stack. Heat knows how to make the necessary changes. It will delete all of the resources when you are finished with the application, too.
 * Heat primarily manages infrastructure, but the templates integrate well with software configuration management tools such as Puppet and Chef. The Heat team is working on providing even better integration between infrastructure and software.
 
-_Source: [OpenStack Wiki](https://wiki.openstack.org/wiki/Heat)_
+_Source: [HuaweiCloud Wiki](https://wiki.openstack.org/wiki/Heat)_
 
-# OpenStack Orchestration (Heat) Client
+# HuaweiCloud Orchestration (Heat) Client
 
-[Full OpenStack Orchestration/Heat API Docs](http://developer.openstack.org/api-ref-orchestration-v1.html)
+[Full HuaweiCloud Orchestration/Heat API Docs](http://developer.openstack.org/api-ref-orchestration-v1.html)
 
 ## Orchestration Service
 Get a handle on the Orchestration service:
 
 ```ruby
-service = Fog::Orchestration::OpenStack.new({
-  :openstack_auth_url  => 'http://KEYSTONE_HOST:KEYSTONE_PORT/v2.0/tokens', # OpenStack Keystone endpoint
-  :openstack_username  => OPEN_STACK_USER,                                  # Your OpenStack Username
-  :openstack_tenant    => OPEN_STACK_TENANT,                                # Your tenant id
-  :openstack_api_key   => OPEN_STACK_PASSWORD,                              # Your OpenStack Password
+service = Fog::Orchestration::HuaweiCloud.new({
+  :huaweicloud_auth_url  => 'http://KEYSTONE_HOST:KEYSTONE_PORT/v2.0/tokens', # HuaweiCloud Keystone endpoint
+  :huaweicloud_username  => OPEN_STACK_USER,                                  # Your HuaweiCloud Username
+  :huaweicloud_tenant    => OPEN_STACK_TENANT,                                # Your tenant id
+  :huaweicloud_api_key   => OPEN_STACK_PASSWORD,                              # Your HuaweiCloud Password
   :connection_options  => {}                                                # Optional
 })
 ```
@@ -46,9 +46,9 @@ service.stacks
 ```
 This returns a list of stacks with minimum attributes, leaving other attributes empty
 ```ruby
-=> <Fog::Orchestration::OpenStack::Stacks
+=> <Fog::Orchestration::HuaweiCloud::Stacks
     [
-      <Fog::Orchestration::OpenStack::Stack
+      <Fog::Orchestration::HuaweiCloud::Stack
         id="0b8e4060-419b-416b-a927-097d4afbf26d",
         capabilities=nil,
         description="Simple template to deploy a single compute instance",
@@ -93,7 +93,7 @@ stack = service.stacks.get("stack4", "0b8e4060-419b-416b-a927-097d4afbf26d")
 ```
 This returns a stack with all attributes filled
 ```ruby
-=>   <Fog::Orchestration::OpenStack::Stack
+=>   <Fog::Orchestration::HuaweiCloud::Stack
     id="0b8e4060-419b-416b-a927-097d4afbf26d",
     capabilities=[],
     description="Simple template to deploy a single compute instance",
@@ -101,7 +101,7 @@ This returns a stack with all attributes filled
     links=[{"href"=>"http://10.8.96.4:8004/v1/5d139d95546240748508b2a518aa5bef/stacks/stack4/0b8e4060-419b-416b-a927-097d4afbf26d", "rel"=>"self"}],
     notification_topics=[],
     outputs=[],
-    parameters={"AWS::StackId"=>"arn:openstack:heat::5d139d95546240748508b2a518aa5bef:stacks/stack4/0b8e4060-419b-416b-a927-097d4afbf26d", "AWS::Region"=>"ap-southeast-1", "AWS::StackName"=>"stack4"},
+    parameters={"AWS::StackId"=>"arn:huaweicloud:heat::5d139d95546240748508b2a518aa5bef:stacks/stack4/0b8e4060-419b-416b-a927-097d4afbf26d", "AWS::Region"=>"ap-southeast-1", "AWS::StackName"=>"stack4"},
     stack_name="stack4",
     stack_status="UPDATE_COMPLETE",
     stack_status_reason="Stack successfully updated",
@@ -143,9 +143,9 @@ A stack knows about related `events`:
 
 ```ruby
 stack.events
-=>   <Fog::Orchestration::OpenStack::Events
+=>   <Fog::Orchestration::HuaweiCloud::Events
     [
-      <Fog::Orchestration::OpenStack::Event
+      <Fog::Orchestration::HuaweiCloud::Event
         id="251",
         resource_name="my_instance",
         event_time="2015-01-21T20:08:51Z",
@@ -160,9 +160,9 @@ A stack knows about related `resources`:
 
 ```ruby
 stack.resources
-=>   <Fog::Orchestration::OpenStack::Resources
+=>   <Fog::Orchestration::HuaweiCloud::Resources
     [
-      <Fog::Orchestration::OpenStack::Resource
+      <Fog::Orchestration::HuaweiCloud::Resource
         id=nil,
         resource_name="my_instance",
         description=nil,
@@ -182,7 +182,7 @@ You can get a stack's `template`
 
 ```ruby
 stack.template
-=>   <Fog::Orchestration::OpenStack::Template
+=>   <Fog::Orchestration::HuaweiCloud::Template
     format="HOT",
     description="Simple template to deploy a single compute instance",
     template_version="2013-05-23",
@@ -201,7 +201,7 @@ Reload any object by calling `reload` on it:
 
 ```ruby
 stacks.reload
-=>   <Fog::Orchestration::OpenStack::Stacks
+=>   <Fog::Orchestration::HuaweiCloud::Stacks
     [...]
   >
 ```
@@ -212,9 +212,9 @@ You can list `Events` of a `stack`:
 
 ```ruby
 stack.events
-=>   <Fog::Orchestration::OpenStack::Events
+=>   <Fog::Orchestration::HuaweiCloud::Events
     [
-      <Fog::Orchestration::OpenStack::Event
+      <Fog::Orchestration::HuaweiCloud::Event
         id="15",
         resource_name="my_instance",
         event_time="2014-09-12T20:43:58Z",
@@ -230,7 +230,7 @@ stack.events
 
 ```ruby
 event = service.events.get(stack, resource, event_id)
-=>   <Fog::Orchestration::OpenStack::Event
+=>   <Fog::Orchestration::HuaweiCloud::Event
     id="15",
     resource_name="my_instance",
     event_time="2014-09-12T20:43:58Z",
@@ -246,7 +246,7 @@ An `event` knows about its associated `stack`:
 
 ```ruby
 event.stack
-=>   <Fog::Orchestration::OpenStack::Stack
+=>   <Fog::Orchestration::HuaweiCloud::Stack
     id="0c9ee370-ef64-4a80-a6cc-65d2277caeb9",
     description="Simple template to deploy a single compute instance",
     links=[{"href"=>"http://10.8.96.4:8004/v1/5d139d95546240748508b2a518aa5bef/stacks/progenerated/0c9ee370-ef64-4a80-a6cc-65d2277caeb9", "rel"=>"self"}],
@@ -260,7 +260,7 @@ An  `event` has an associated `resource`:
 
 ```ruby
 resource = event.resource
-=>   <Fog::Orchestration::OpenStack::Resource
+=>   <Fog::Orchestration::HuaweiCloud::Resource
     id=nil,
     resource_name="my_instance",
     description="",
@@ -280,9 +280,9 @@ resource = event.resource
 
 ```ruby
 service.resources.all(stack, {:nested_depth => 1})
-=>   <Fog::Orchestration::OpenStack::Resources
+=>   <Fog::Orchestration::HuaweiCloud::Resources
     [
-      <Fog::Orchestration::OpenStack::Resource
+      <Fog::Orchestration::HuaweiCloud::Resource
         id=nil,
         resource_name="my_instance",
         description=nil,
@@ -302,7 +302,7 @@ A `resource` knows about its associated `stack`:
 
 ```ruby
 resource.stack
-=>   <Fog::Orchestration::OpenStack::Stack
+=>   <Fog::Orchestration::HuaweiCloud::Stack
     id="0c9ee370-ef64-4a80-a6cc-65d2277caeb9",
     description="Simple template to deploy a single compute instance",
     links=[{"href"=>"http://10.8.96.4:8004/v1/5d139d95546240748508b2a518aa5bef/stacks/progenerated/0c9ee370-ef64-4a80-a6cc-65d2277caeb9", "rel"=>"self"}],
@@ -332,7 +332,7 @@ You can validate a template (either HOT or CFN) before using it:
 
 ```ruby
 service.templates.validate(:template => content)
-=>   <Fog::Orchestration::OpenStack::Template
+=>   <Fog::Orchestration::HuaweiCloud::Template
     format=nil,
     description="Simple template to deploy a single compute instance",
     template_version=nil,

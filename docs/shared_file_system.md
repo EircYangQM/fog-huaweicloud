@@ -1,6 +1,6 @@
 # Shared File System (Manila)
 
-This document explains how to get started using OpenStack Shared File System (Manila) with Fog. It assumes you have read the [Getting Started with Fog and OpenStack](getting_started.md) document.
+This document explains how to get started using HuaweiCloud Shared File System (Manila) with Fog. It assumes you have read the [Getting Started with Fog and HuaweiCloud](getting_started.md) document.
 
 ## Starting irb console
 
@@ -16,18 +16,18 @@ bundle exec irb
 
 Once `irb` has launched you need to require the Fog library by executing:
 ```
-require 'fog/openstack'
+require 'fog/huaweicloud'
 ```
 ## Create Service
 
 Next, create a connection to the Shared File System Service:
 ```
-service = Fog::SharedFileSystem::OpenStack.new(
-	:openstack_auth_url     => 'http://KEYSTONE_HOST:KEYSTONE_PORT/v3/auth/tokens', # OpenStack Keystone v3 endpoint
-	:openstack_username     => OPEN_STACK_USER,                                     # Your OpenStack Username
-	:openstack_domain_name  => OPEN_STACK_DOMAIN,                                   # Your OpenStack Domain name
-	:openstack_project_name => OPEN_STACK_PROJECT,                                  # Your OpenStack Project name
-	:openstack_api_key      => OPEN_STACK_PASSWORD,                                 # Your OpenStack Password
+service = Fog::SharedFileSystem::HuaweiCloud.new(
+	:huaweicloud_auth_url     => 'http://KEYSTONE_HOST:KEYSTONE_PORT/v3/auth/tokens', # HuaweiCloud Keystone v3 endpoint
+	:huaweicloud_username     => OPEN_STACK_USER,                                     # Your HuaweiCloud Username
+	:huaweicloud_domain_name  => OPEN_STACK_DOMAIN,                                   # Your HuaweiCloud Domain name
+	:huaweicloud_project_name => OPEN_STACK_PROJECT,                                  # Your HuaweiCloud Project name
+	:huaweicloud_api_key      => OPEN_STACK_PASSWORD,                                 # Your HuaweiCloud Password
 	:connection_options     => {}                                                   # Optional
 )
 ```
@@ -40,7 +40,7 @@ Fog provides both a **model** and **request** abstraction. The request abstracti
 
 ### Request Layer
 
-The request abstraction maps directly to the [OpenStack Shared File System API](http://developer.openstack.org/api-ref/shared-file-systems). It provides the most efficient interface to the OpenStack Shared File System service.
+The request abstraction maps directly to the [HuaweiCloud Shared File System API](http://developer.openstack.org/api-ref/shared-file-systems). It provides the most efficient interface to the HuaweiCloud Shared File System service.
 
 To see a list of requests supported by the service:
 ```
@@ -54,7 +54,7 @@ To request a list of networks:
 response = service.list_shares
 ```
 
-To learn more about Shared File System request methods refer to [rdoc](http://www.rubydoc.info/gems/fog-openstack/Fog/SharedFileSystem/OpenStack/Real).
+To learn more about Shared File System request methods refer to [rdoc](http://www.rubydoc.info/gems/fog-openstack/Fog/SharedFileSystem/HuaweiCloud/Real).
 
 ### Model Layer
 
@@ -78,5 +78,5 @@ Example code using Shared File System can be found [here](https://github.com/fog
 
 ## Additional Resources
 
-* [OpenStack Shared File System API](http://developer.openstack.org/api-ref/shared-file-systems/)
+* [HuaweiCloud Shared File System API](http://developer.openstack.org/api-ref/shared-file-systems/)
 * [more resources and feedback](common/resources.md)

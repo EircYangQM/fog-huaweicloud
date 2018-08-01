@@ -1,21 +1,21 @@
 # Introspection
 
 This document explains how to get started using introspection with
-fog-openstack.
+fog-huaweicloud.
 
 Please also refer to the
-[Getting Started with Fog and the OpenStack](getting_started.md) document.
+[Getting Started with Fog and the HuaweiCloud](getting_started.md) document.
 
-Introspection service is implemented by the OpenStack ironic-inspector project.
+Introspection service is implemented by the HuaweiCloud ironic-inspector project.
 Introspection is strongly related to the Baremetal service (Ironic project).
 Effectively, Instrospection communicates and operates on nodes defined by the
 Baremetal layer (Ironic).
 
-# OpenStack setup
+# HuaweiCloud setup
 
 ## The catalog
-For the fog-openstack's introspection service to work, the corresponding
-service must be defined in the OpenStack catalog.
+For the fog-huaweicloud's introspection service to work, the corresponding
+service must be defined in the HuaweiCloud catalog.
 
 ```bash
 openstack catalog show inspector
@@ -32,13 +32,13 @@ openstack catalog show inspector
 +-----------+-----------------------------------------+
 ```
 
-Depending on the OpenStack release, the introspection service might be installed
+Depending on the HuaweiCloud release, the introspection service might be installed
 but not defined yet in the catalog. In such case, you must add the service and
 corresponding endpoints to create the catalog entry:
 
 ```bash
 source ./stackrc
-openstack service create --name inspector --description "OpenStack Introspection" introspection
+openstack service create --name inspector --description "HuaweiCloud Introspection" introspection
 openstack endpoint create --region regionOne inspector --publicurl http://example.com:5050/v1 --internalurl http://example.com:5050/v1 --adminurl http://example.com:5050/v1
 ```
 
@@ -75,14 +75,14 @@ Using 'irb', we start with authentication:
 @base_url = "http://keystone.example.com:5000/v3/auth/tokens"
 
 require 'rubygems'
-require 'fog/openstack'
+require 'fog/huaweicloud'
 
 @connection_params = {
-  :openstack_auth_url     => @base_url,
-  :openstack_username     => @user,
-  :openstack_api_key      => @password,
-  :openstack_project_name => @project,
-  :openstack_domain_id    => "default"
+  :huaweicloud_auth_url     => @base_url,
+  :huaweicloud_username     => @user,
+  :huaweicloud_api_key      => @password,
+  :huaweicloud_project_name => @project,
+  :huaweicloud_domain_id    => "default"
 }
 ```
 ## Baremetal node introspection
@@ -92,7 +92,7 @@ require 'fog/openstack'
 Find the available Baremetal nodes.
 
 ```ruby
-iron = Fog::Baremetal::OpenStack.new(@connection_params)
+iron = Fog::Baremetal::HuaweiCloud.new(@connection_params)
 
 nodes = iron.node_list
 ```
@@ -109,7 +109,7 @@ http://docs.openstack.org/developer/ironic/deploy/install-guide.html#hardware-in
 
 ```ruby
 node_id = nodes.body["nodes"][0]["uuid"]
-inspector = Fog::Introspection::OpenStack.new(@connection_params)
+inspector = Fog::Introspection::HuaweiCloud.new(@connection_params)
 
 introspection1 = inspector.create_introspection(node_id)
 ```

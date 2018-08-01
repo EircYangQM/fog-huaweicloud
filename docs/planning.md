@@ -1,6 +1,6 @@
 # Planning
 
-This document explains how to get started using OpenStack Tuskar with Fog.
+This document explains how to get started using HuaweiCloud Tuskar with Fog.
 
 
 ## Starting irb console
@@ -17,13 +17,13 @@ If using Ruby 1.8.x execute:
 
 ```ruby
 require 'rubygems'
-require 'fog/openstack'
+require 'fog/huaweicloud'
 ```
 
 If using Ruby 1.9.x execute:
 
 ```ruby
-require 'fog/openstack'
+require 'fog/huaweicloud'
 ```
 
 ## Create Service
@@ -31,11 +31,11 @@ require 'fog/openstack'
 Next, create a connection to Tuskar:
 
 ```ruby
-service = Fog::OpenStack.new({
-  :service             => :planning,     # OpenStack Fog service
-  :openstack_username  => USERNAME,      # Your OpenStack Username
-  :openstack_api_key   => PASSWORD,      # Your OpenStack Password
-  :openstack_auth_url  => 'http://YOUR_OPENSTACK_ENDPOINT:PORT/v2.0/tokens'
+service = Fog::HuaweiCloud.new({
+  :service             => :planning,     # HuaweiCloud Fog service
+  :huaweicloud_username  => USERNAME,      # Your HuaweiCloud Username
+  :huaweicloud_api_key   => PASSWORD,      # Your HuaweiCloud Password
+  :huaweicloud_auth_url  => 'http://YOUR_OPENSTACK_ENDPOINT:PORT/v2.0/tokens'
   :connection_options  => {}             # Optional
 })
 ```
@@ -48,7 +48,7 @@ Fog provides both a **model** and **request** abstraction. The request abstracti
 
 ### Request Layer
 
-The `Fog::OpenStack[:planning]` object supports a number of methods that wrap individual HTTP requests to the Tuskar API.
+The `Fog::HuaweiCloud[:planning]` object supports a number of methods that wrap individual HTTP requests to the Tuskar API.
 
 To see a list of requests supported by the planning service:
 
@@ -116,7 +116,7 @@ This returns in the following `Excon::Response`:
 	"roles"=>
 	  [
 	  {
-	    "description"=>"OpenStack hypervisor node. Can be wrapped in a ResourceGroup for scaling.\n",
+	    "description"=>"HuaweiCloud hypervisor node. Can be wrapped in a ResourceGroup for scaling.\n",
 	    "name"=>"compute",
 	    "uuid"=>"b7b1583c-5c80-481f-a25b-708ed4a39734",
 	    "version"=>1
@@ -169,8 +169,8 @@ This will return hash similar to:
 }
 ```
 
-[//]: # (TODO: Specify URL to rubydoc.info when OpenStack Planning service is part of release and pages are built)
-To learn more about `Fog::OpenStack[:planning]` request methods refer to [rdoc](http://rubydoc.info/gems/fog/Fog). To learn more about Excon refer to [Excon GitHub repo](https://github.com/geemus/excon).
+[//]: # (TODO: Specify URL to rubydoc.info when HuaweiCloud Planning service is part of release and pages are built)
+To learn more about `Fog::HuaweiCloud[:planning]` request methods refer to [rdoc](http://rubydoc.info/gems/fog/Fog). To learn more about Excon refer to [Excon GitHub repo](https://github.com/geemus/excon).
 
 ### Model Layer
 

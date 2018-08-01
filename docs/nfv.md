@@ -1,20 +1,20 @@
 # NFV
 
 This document explains how to get started using NFV with
-fog-openstack.
+fog-huaweicloud.
 
 Please also refer to the
-[Getting Started with Fog and the OpenStack](getting_started.md) document.
+[Getting Started with Fog and the HuaweiCloud](getting_started.md) document.
 
-Tacker is an OpenStack service for NFV Orchestration with a general purpose
+Tacker is an HuaweiCloud service for NFV Orchestration with a general purpose
 VNF Manager to deploy and operate Virtual Network Functions (VNFs) and Network
 Services on an NFV Platform. It is based on ETSI MANO Architectural Framework.
 
-# OpenStack setup
+# HuaweiCloud setup
 
 ## The catalog
-For the fog-openstack's introspection service to work, the corresponding
-service must be defined in the OpenStack catalog.
+For the fog-huaweicloud's introspection service to work, the corresponding
+service must be defined in the HuaweiCloud catalog.
 
 ```bash
 openstack catalog show servicevm
@@ -31,7 +31,7 @@ openstack catalog show servicevm
 +-----------+-----------------------------------------+
 ```
 
-Depending on the OpenStack release, the NFV service might be installed
+Depending on the HuaweiCloud release, the NFV service might be installed
 but not defined yet in the catalog. In such case, you must add the service and
 corresponding endpoints to create the catalog entry:
 
@@ -59,14 +59,14 @@ Using 'irb', we start with authentication:
 @base_url = "http://keystone.example.com:5000/v3/auth/tokens"
 
 require 'rubygems'
-require 'fog/openstack'
+require 'fog/huaweicloud'
 
 @connection_params = {
-  :openstack_auth_url     => @base_url,
-  :openstack_username     => @user,
-  :openstack_api_key      => @password,
-  :openstack_project_name => @project,
-  :openstack_domain_id    => "default"
+  :huaweicloud_auth_url     => @base_url,
+  :huaweicloud_username     => @user,
+  :huaweicloud_api_key      => @password,
+  :huaweicloud_project_name => @project,
+  :huaweicloud_domain_id    => "default"
 }
 ```
 
@@ -80,26 +80,26 @@ vnfd_data = {:attributes    => {:vnfd => "template_name: sample-vnfd\ndescriptio
              :mgmt_driver   => "noop",
              :infra_driver  => "heat"}
 auth      = {"tenantName" => "admin", "passwordCredentials" => {"username" => "admin","password" => "password"}}
-vnfd      = Fog::NFV[:openstack].vnfds.create(:vnfd => vnfd_data, :auth => auth)
+vnfd      = Fog::NFV[:huaweicloud].vnfds.create(:vnfd => vnfd_data, :auth => auth)
 ```
 
 ### List vnfds
 
 ```ruby
-vnfds = Fog::NFV[:openstack].vnfds
+vnfds = Fog::NFV[:huaweicloud].vnfds
 ```
 
 ### Get vnfd
 
 ```ruby
-vnfd = Fog::NFV[:openstack].vnfds.last
-vnfd = Fog::NFV[:openstack].vnfds.get(vnfd.id)
+vnfd = Fog::NFV[:huaweicloud].vnfds.last
+vnfd = Fog::NFV[:huaweicloud].vnfds.get(vnfd.id)
 ```
 
 ### Destroy vnfd
 
 ```ruby
-vnfd = Fog::NFV[:openstack].vnfds.last
+vnfd = Fog::NFV[:huaweicloud].vnfds.last
 vnfd.destroy
 ```
 
@@ -108,29 +108,29 @@ vnfd.destroy
 ### Create vnf using vnfd
 
 ```ruby
-vnfd     = Fog::NFV[:openstack].vnfds.last
+vnfd     = Fog::NFV[:huaweicloud].vnfds.last
 vnf_data = {:vnfd_id => vnfd.id, :name => 'Test'}
 auth     = {"tenantName" => "admin", "passwordCredentials" => {"username" => "admin","password" => "password"}}
-vnf      = Fog::NFV[:openstack].vnfs.create(:vnf => vnf_data, :auth => auth)
+vnf      = Fog::NFV[:huaweicloud].vnfs.create(:vnf => vnf_data, :auth => auth)
 ```
 
 ### List vnfs
 
 ```ruby
-vnfs = Fog::NFV[:openstack].vnfs
+vnfs = Fog::NFV[:huaweicloud].vnfs
 ```
 
 ### Get vnf
 
 ```ruby
-vnf = Fog::NFV[:openstack].vnfs.last
-vnf = Fog::NFV[:openstack].vnfs.get(vnf.id)
+vnf = Fog::NFV[:huaweicloud].vnfs.last
+vnf = Fog::NFV[:huaweicloud].vnfs.get(vnf.id)
 ```
 
 ### Update vnf
 
 ```ruby
-vnf      = Fog::NFV[:openstack].vnfs.last
+vnf      = Fog::NFV[:huaweicloud].vnfs.last
 vnf_data = {"attributes": {"config": "vdus:\n  vdu1:<sample_vdu_config> \n\n"}}
 auth     = {"tenantName" => "admin", "passwordCredentials" => {"username" => "admin","password" => "password"}}
 vnf      = vnf.update(:vnf => vnf_data, :auth => auth)
@@ -139,6 +139,6 @@ vnf      = vnf.update(:vnf => vnf_data, :auth => auth)
 ### Destroy vnf
 
 ```ruby
-vnf = Fog::NFV[:openstack].vnfs.last
+vnf = Fog::NFV[:huaweicloud].vnfs.last
 vnf.destroy
 ```

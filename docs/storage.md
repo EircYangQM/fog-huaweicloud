@@ -1,6 +1,6 @@
 # Storage
 
-This document explains how to get started using OpenStack Swift with Fog.
+This document explains how to get started using HuaweiCloud Swift with Fog.
 
 
 ## Starting irb console
@@ -15,13 +15,13 @@ If using Ruby 1.8.x execute:
 
 ```ruby
 require 'rubygems'
-require 'fog/openstack'
+require 'fog/huaweicloud'
 ```
 
 If using Ruby 1.9.x execute:
 
 ```ruby
-require 'fog/openstack'
+require 'fog/huaweicloud'
 ```
 
 ## Create Service
@@ -29,17 +29,17 @@ require 'fog/openstack'
 Next, create a connection to Swift:
 
 ```ruby
-service = Fog::Storage::OpenStack.new({
-  :openstack_username  => USERNAME,      # Your OpenStack Username
-  :openstack_api_key   => PASSWORD,      # Your OpenStack Password
-  :openstack_auth_url  => 'http://YOUR_OPENSTACK_ENDPOINT:PORT/v2.0/tokens',
+service = Fog::Storage::HuaweiCloud.new({
+  :huaweicloud_username  => USERNAME,      # Your HuaweiCloud Username
+  :huaweicloud_api_key   => PASSWORD,      # Your HuaweiCloud Password
+  :huaweicloud_auth_url  => 'http://YOUR_OPENSTACK_ENDPOINT:PORT/v2.0/tokens',
   :connection_options  => {}
 })
 ```
 
 Read more about the [Optional Connection Parameters](common/connection_params.md)
 
-Alternative regions are specified using the key `:openstack_region `. A list of regions available for Swift can be found by executing the following:
+Alternative regions are specified using the key `:huaweicloud_region `. A list of regions available for Swift can be found by executing the following:
 
 ### Optional Service Parameters
 
@@ -55,23 +55,23 @@ The Storage service supports the following additional parameters:
 <td>If set to true, the service will use a persistent connection.</td>
 </tr>
 <tr>
-<td>:openstack_service_name</td>
+<td>:huaweicloud_service_name</td>
 <td></td>
 </tr>
 <tr>
-<td>:openstack_service_type</td>
+<td>:huaweicloud_service_type</td>
 <td></td>
 </tr>
 <tr>
-<td>:openstack_tenant</td>
+<td>:huaweicloud_tenant</td>
 <td></td>
 </tr>
 <tr>
-<td>:openstack_region</td>
+<td>:huaweicloud_region</td>
 <td></td>
 </tr>
 <tr>
-<td>:openstack_temp_url_key</td>
+<td>:huaweicloud_temp_url_key</td>
 <td></td>
 </tr>
 </table>
@@ -126,7 +126,7 @@ This will return:
 {"X-Account-Bytes-Used"=>"2563554", "Date"=>"Thu, 21 Feb 2013 21:57:02 GMT", "X-Account-Meta-Temp-Url-Key"=>"super_secret_key", "X-Timestamp"=>"1354552916.82056", "Content-Length"=>"0", "Content-Type"=>"application/json; charset=utf-8", "X-Trans-Id"=>"txe934924374a744c8a6c40dd8f29ab94a", "Accept-Ranges"=>"bytes", "X-Account-Container-Count"=>"7", "X-Account-Object-Count"=>"5"}
 ```
 
-To learn more about `Fog::Storage` request methods refer to [rdoc](http://rubydoc.info/gems/fog/Fog/Storage/OpenStack/Real). To learn more about Excon refer to [Excon GitHub repo](https://github.com/geemus/excon).
+To learn more about `Fog::Storage` request methods refer to [rdoc](http://rubydoc.info/gems/fog/Fog/Storage/HuaweiCloud/Real). To learn more about Excon refer to [Excon GitHub repo](https://github.com/geemus/excon).
 
 ### Model Layer
 
@@ -184,7 +184,7 @@ To retrieve a list of directories:
 service.directories
 ```
 
-This returns a collection of `Fog::Storage::OpenStack::Directory` models:
+This returns a collection of `Fog::Storage::HuaweiCloud::Directory` models:
 
 ## Get Directory
 
@@ -194,7 +194,7 @@ To retrieve a specific directory:
 service.directories.get "blue"
 ```
 
-This returns a `Fog::Storage::OpenStack::Directory` instance:
+This returns a `Fog::Storage::HuaweiCloud::Directory` instance:
 
 ## Create Directory
 

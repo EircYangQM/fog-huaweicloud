@@ -1,6 +1,6 @@
-# Getting Started with Fog and OpenStack
+# Getting Started with Fog and HuaweiCloud
 
-This document explains how to get started using Fog with [OpenStack](http://openstack.org)
+This document explains how to get started using Fog with [HuaweiCloud](http://openstack.org)
 
 ## Requirements
 
@@ -20,16 +20,16 @@ Bundler helps manage gem dependencies and is recommended for new projects. For m
 
 ## Installation
 
-To install Fog-Openstack via RubyGems run the following command:
+To install Fog-HuaweiCloud via RubyGems run the following command:
 
-    $ gem install fog-openstack
+    $ gem install fog-huaweicloud
 
 To install Fog via Bundler add `gem 'fog'` to your `Gemfile`. This is a sample `Gemfile` to install Fog:
 
 ```ruby
 source 'https://rubygems.org'
 
-gem 'fog-openstack'
+gem 'fog-huaweicloud'
 ```
 
 After creating your `Gemfile` execute the following command to install the libraries:
@@ -50,19 +50,19 @@ If using Ruby 1.8.x execute the following command:
 
 ```ruby
 require 'rubygems'
-require 'fog/openstack'
+require 'fog/huaweicloud'
 ```
 
 If using Ruby 1.9.x execute the following command:
 
 ```ruby
-require 'fog/openstack'
+require 'fog/huaweicloud'
 ```
 
 You should now be able to execute the following command to see a list of services Fog provides for the Rackspace Open Cloud:
 
 ```ruby
-Fog::OpenStack.services
+Fog::HuaweiCloud.services
 ```
 
 These services can be explored in further depth in the following documents:

@@ -1,19 +1,19 @@
-# OpenStack Workflow (Mistral)
+# HuaweiCloud Workflow (Mistral)
 
-This document explains how to get started using OpenStack Workflow (Mistral) with Fog. It assumes you have read the [Getting Started with Fog and the OpenStack](getting_started.md) document.
+This document explains how to get started using HuaweiCloud Workflow (Mistral) with Fog. It assumes you have read the [Getting Started with Fog and the HuaweiCloud](getting_started.md) document.
 
-Fog uses the [OpenStack Mistral API](http://docs.openstack.org/developer/mistral/developer/webapi/v2.html).
+Fog uses the [HuaweiCloud Mistral API](http://docs.openstack.org/developer/mistral/developer/webapi/v2.html).
 
 ## Workflow Service
 
 Get a handle for the Workflow service:
 
 ```ruby
-service = Fog::Workflow::OpenStack.new({
-  :openstack_auth_url  => 'http://KEYSTONE_HOST:KEYSTONE_PORT/v2.0/tokens', # OpenStack Keystone endpoint
-  :openstack_username  => OPEN_STACK_USER,                                  # Your OpenStack Username
-  :openstack_tenant    => OPEN_STACK_TENANT,                                # Your tenant id
-  :openstack_api_key   => OPEN_STACK_PASSWORD,                              # Your OpenStack Password
+service = Fog::Workflow::HuaweiCloud.new({
+  :huaweicloud_auth_url  => 'http://KEYSTONE_HOST:KEYSTONE_PORT/v2.0/tokens', # HuaweiCloud Keystone endpoint
+  :huaweicloud_username  => OPEN_STACK_USER,                                  # Your HuaweiCloud Username
+  :huaweicloud_tenant    => OPEN_STACK_TENANT,                                # Your tenant id
+  :huaweicloud_api_key   => OPEN_STACK_PASSWORD,                              # Your HuaweiCloud Password
   :connection_options  => {}                                                # Optional
 })
 ```

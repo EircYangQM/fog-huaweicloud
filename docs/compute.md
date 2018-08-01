@@ -1,6 +1,6 @@
 #Compute (Nova)
 
-This document explains how to get started using OpenStack Compute (Nova) with Fog. It assumes you have read the [Getting Started with Fog and the OpenStack](getting_started.md) document.
+This document explains how to get started using HuaweiCloud Compute (Nova) with Fog. It assumes you have read the [Getting Started with Fog and the HuaweiCloud](getting_started.md) document.
 
 ## Starting irb console
 
@@ -10,21 +10,21 @@ Start by executing the following command:
 
 Once `irb` has launched you need to require the Fog library by executing:
 
-	require 'fog/openstack'
+	require 'fog/huaweicloud'
 
 ## Create Service
 
 Next, create a connection to the Compute Service:
 
-	service = Fog::Compute::OpenStack.new({
-		:openstack_auth_url  => 'http://KEYSTONE_HOST:KEYSTONE_PORT/v2.0/tokens', # OpenStack Keystone endpoint
-		:openstack_username  => OPEN_STACK_USER,                                  # Your OpenStack Username
-		:openstack_tenant    => OPEN_STACK_TENANT,                                # Your tenant id
-		:openstack_api_key   => OPEN_STACK_PASSWORD,                              # Your OpenStack Password
+	service = Fog::Compute::HuaweiCloud.new({
+		:huaweicloud_auth_url  => 'http://KEYSTONE_HOST:KEYSTONE_PORT/v2.0/tokens', # HuaweiCloud Keystone endpoint
+		:huaweicloud_username  => OPEN_STACK_USER,                                  # Your HuaweiCloud Username
+		:huaweicloud_tenant    => OPEN_STACK_TENANT,                                # Your tenant id
+		:huaweicloud_api_key   => OPEN_STACK_PASSWORD,                              # Your HuaweiCloud Password
 		:connection_options  => {}                                                # Optional
 	})
 
-**Note** `openstack_username` and `openstack_tenant` default to `admin` if omitted.
+**Note** `huaweicloud_username` and `huaweicloud_tenant` default to `admin` if omitted.
 
 Read more about the [Optional Connection Parameters](common/connection_params.md)
 
@@ -35,7 +35,7 @@ Fog provides both a **model** and **request** abstraction. The request abstracti
 
 ### Request Layer
 
-The request abstraction maps directly to the [OpenStack Compute API](http://docs.openstack.org/api/openstack-compute/2/content/). It provides the most efficient interface to the OpenStack Compute service.
+The request abstraction maps directly to the [HuaweiCloud Compute API](http://docs.openstack.org/api/openstack-compute/2/content/). It provides the most efficient interface to the HuaweiCloud Compute service.
 
 To see a list of requests supported by the service:
 
@@ -137,13 +137,13 @@ To retrieve a list of available images:
 
 	service.images
 
-This returns a collection of `Fog::Compute::OpenStack::Image` models:
+This returns a collection of `Fog::Compute::HuaweiCloud::Image` models:
 
-	<Fog::Compute::OpenStack::Images
+	<Fog::Compute::HuaweiCloud::Images
     filters={},
     server=nil
     [
-      <Fog::Compute::OpenStack::Image
+      <Fog::Compute::HuaweiCloud::Image
         id="821e2b73-5aed-4f9d-aaa7-2f4f297779f3",
         name="cirros-0.3.1-x86_64-uec",
         created_at="2013-07-11T19:59:19Z",
@@ -153,13 +153,13 @@ This returns a collection of `Fog::Compute::OpenStack::Image` models:
         minDisk=0,
         minRam=0,
         server=nil,
-        metadata=        <Fog::Compute::OpenStack::Metadata
+        metadata=        <Fog::Compute::HuaweiCloud::Metadata
           [
-            <Fog::Compute::OpenStack::Metadatum
+            <Fog::Compute::HuaweiCloud::Metadatum
               key="kernel_id",
               value="f443896b-089c-40e7-8712-bb48a676a8de"
             >,
-            <Fog::Compute::OpenStack::Metadatum
+            <Fog::Compute::HuaweiCloud::Metadatum
               key="ramdisk_id",
               value="e21af7e2-a181-403a-84a4-fd9df36cb963"
             >
@@ -167,7 +167,7 @@ This returns a collection of `Fog::Compute::OpenStack::Image` models:
         >,
         links=[{"href"=>"http://localhost:8774/v2/b5bf8e689bc64844b1d08094a2f2bdd5/images/821e2b73-5aed-4f9d-aaa7-2f4f297779f3", "rel"=>"self"}, {"href"=>"http://localhost:8774/b5bf8e689bc64844b1d08094a2f2bdd5/images/821e2b73-5aed-4f9d-aaa7-2f4f297779f3", "rel"=>"bookmark"}, {"href"=>"http://localhost:9292/b5bf8e689bc64844b1d08094a2f2bdd5/images/821e2b73-5aed-4f9d-aaa7-2f4f297779f3", "type"=>"application/vnd.openstack.image", "rel"=>"alternate"}]
       >,
-      <Fog::Compute::OpenStack::Image
+      <Fog::Compute::HuaweiCloud::Image
         id="e21af7e2-a181-403a-84a4-fd9df36cb963",
         name="cirros-0.3.1-x86_64-uec-ramdisk",
         created_at="2013-07-11T19:59:18Z",
@@ -177,7 +177,7 @@ This returns a collection of `Fog::Compute::OpenStack::Image` models:
         minDisk=0,
         minRam=0,
         server=nil,
-        metadata=        <Fog::Compute::OpenStack::Metadata
+        metadata=        <Fog::Compute::HuaweiCloud::Metadata
           []
         >,
         links=[{"href"=>"http://localhost:8774/v2/b5bf8e689bc64844b1d08094a2f2bdd5/images/e21af7e2-a181-403a-84a4-fd9df36cb963", "rel"=>"self"}, {"href"=>"http://localhost:8774/b5bf8e689bc64844b1d08094a2f2bdd5/images/e21af7e2-a181-403a-84a4-fd9df36cb963", "rel"=>"bookmark"}, {"href"=>"http://localhost:9292/b5bf8e689bc64844b1d08094a2f2bdd5/images/e21af7e2-a181-403a-84a4-fd9df36cb963", "type"=>"application/vnd.openstack.image", "rel"=>"alternate"}]
@@ -190,9 +190,9 @@ To retrieve individual image:
 
 	service.images.get "821e2b73-5aed-4f9d-aaa7-2f4f297779f3"
 
-This returns an `Fog::Compute::OpenStack::Image` instance:
+This returns an `Fog::Compute::HuaweiCloud::Image` instance:
 
-    <Fog::Compute::OpenStack::Image
+    <Fog::Compute::HuaweiCloud::Image
     id="821e2b73-5aed-4f9d-aaa7-2f4f297779f3",
     name="cirros-0.3.1-x86_64-uec",
     created_at="2013-07-11T19:59:19Z",
@@ -202,13 +202,13 @@ This returns an `Fog::Compute::OpenStack::Image` instance:
     minDisk=0,
     minRam=0,
     server=nil,
-    metadata=    <Fog::Compute::OpenStack::Metadata
+    metadata=    <Fog::Compute::HuaweiCloud::Metadata
       [
-        <Fog::Compute::OpenStack::Metadatum
+        <Fog::Compute::HuaweiCloud::Metadatum
           key="kernel_id",
           value="f443896b-089c-40e7-8712-bb48a676a8de"
         >,
-        <Fog::Compute::OpenStack::Metadatum
+        <Fog::Compute::HuaweiCloud::Metadatum
           key="ramdisk_id",
           value="e21af7e2-a181-403a-84a4-fd9df36cb963"
         >
@@ -223,11 +223,11 @@ To retrieve a list of available flavors:
 
 	service.flavors
 
-This returns a collection of `Fog::Compute::OpenStack::Flavor` models:
+This returns a collection of `Fog::Compute::HuaweiCloud::Flavor` models:
 
-    <Fog::Compute::OpenStack::Flavors
+    <Fog::Compute::HuaweiCloud::Flavors
     [
-      <Fog::Compute::OpenStack::Flavor
+      <Fog::Compute::HuaweiCloud::Flavor
         id="1",
         name="m1.tiny",
         ram=512,
@@ -240,7 +240,7 @@ This returns a collection of `Fog::Compute::OpenStack::Flavor` models:
         is_public=true,
         disabled=false
       >,
-      <Fog::Compute::OpenStack::Flavor
+      <Fog::Compute::HuaweiCloud::Flavor
         id="2",
         name="m1.small",
         ram=2048,
@@ -262,9 +262,9 @@ To retrieve individual flavor:
 
 	service.flavors.get 1
 
-This returns a `Fog::Compute::OpenStack::Flavor` instance:
+This returns a `Fog::Compute::HuaweiCloud::Flavor` instance:
 
-    <Fog::Compute::OpenStack::Flavor
+    <Fog::Compute::HuaweiCloud::Flavor
     id="1",
     name="m1.tiny",
     ram=512,
@@ -284,19 +284,19 @@ To retrieve a list of available  servers:
 
 	service.servers
 
-This returns a collection of `Fog::Compute::OpenStack::Servers` models:
+This returns a collection of `Fog::Compute::HuaweiCloud::Servers` models:
 
-    <Fog::Compute::OpenStack::Servers
+    <Fog::Compute::HuaweiCloud::Servers
         filters={}
         [
-          <Fog::Compute::OpenStack::Server
+          <Fog::Compute::HuaweiCloud::Server
             id="4572529c-0cfc-433e-8dbf-7cc383ed5b7c",
             instance_name=nil,
             addresses={"private"=>[{"OS-EXT-IPS-MAC:mac_addr"=>"fa:16:3e:14:34:b8", "version"=>4, "addr"=>"10.0.0.5", "OS-EXT-IPS:type"=>"fixed"}]},
             flavor={"id"=>"1", "links"=>[{"href"=>"http://localhost:8774/b5bf8e689bc64844b1d08094a2f2bdd5/flavors/1", "rel"=>"bookmark"}]},
             host_id="bb705edc279c520d97ad6fbd0b8e75a5c716388616f58e527d0ff633",
             image={"id"=>"821e2b73-5aed-4f9d-aaa7-2f4f297779f3", "links"=>[{"href"=>"http://localhost:8774/b5bf8e689bc64844b1d08094a2f2bdd5/images/821e2b73-5aed-4f9d-aaa7-2f4f297779f3", "rel"=>"bookmark"}]},
-            metadata=        <Fog::Compute::OpenStack::Metadata
+            metadata=        <Fog::Compute::HuaweiCloud::Metadata
               []
             >,
             links=[{"href"=>"http://localhost:8774/v2/b5bf8e689bc64844b1d08094a2f2bdd5/servers/4572529c-0cfc-433e-8dbf-7cc383ed5b7c", "rel"=>"self"}, {"href"=>"http://localhost:8774/b5bf8e689bc64844b1d08094a2f2bdd5/servers/4572529c-0cfc-433e-8dbf-7cc383ed5b7c", "rel"=>"bookmark"}],
@@ -331,16 +331,16 @@ To return an individual server:
 
 	service.servers.get "4572529c-0cfc-433e-8dbf-7cc383ed5b7c"
 
-This returns a `Fog::Compute::OpenStack::Server` instance:
+This returns a `Fog::Compute::HuaweiCloud::Server` instance:
 
-	<Fog::Compute::OpenStack::Server
+	<Fog::Compute::HuaweiCloud::Server
             id="4572529c-0cfc-433e-8dbf-7cc383ed5b7c",
             instance_name=nil,
             addresses={"private"=>[{"OS-EXT-IPS-MAC:mac_addr"=>"fa:16:3e:14:34:b8", "version"=>4, "addr"=>"10.0.0.5", "OS-EXT-IPS:type"=>"fixed"}]},
             flavor={"id"=>"1", "links"=>[{"href"=>"http://localhost:8774/b5bf8e689bc64844b1d08094a2f2bdd5/flavors/1", "rel"=>"bookmark"}]},
             host_id="bb705edc279c520d97ad6fbd0b8e75a5c716388616f58e527d0ff633",
             image={"id"=>"821e2b73-5aed-4f9d-aaa7-2f4f297779f3", "links"=>[{"href"=>"http://localhost:8774/b5bf8e689bc64844b1d08094a2f2bdd5/images/821e2b73-5aed-4f9d-aaa7-2f4f297779f3", "rel"=>"bookmark"}]},
-            metadata=        <Fog::Compute::OpenStack::Metadata
+            metadata=        <Fog::Compute::HuaweiCloud::Metadata
               []
             >,
             links=[{"href"=>"http://localhost:8774/v2/b5bf8e689bc64844b1d08094a2f2bdd5/servers/4572529c-0cfc-433e-8dbf-7cc383ed5b7c", "rel"=>"self"}, {"href"=>"http://localhost:8774/b5bf8e689bc64844b1d08094a2f2bdd5/servers/4572529c-0cfc-433e-8dbf-7cc383ed5b7c", "rel"=>"bookmark"}],
@@ -380,16 +380,16 @@ To create a server:
 
 **Note**: The `:name`, `:flavor_ref`, and `image_ref` attributes are required for server creation.
 
-This will return a `Fog::Compute::OpenStack::Server` instance:
+This will return a `Fog::Compute::HuaweiCloud::Server` instance:
 
-	<Fog::Compute::OpenStack::Server
+	<Fog::Compute::HuaweiCloud::Server
     id="81746324-94ab-44fb-9aa9-ee0b4d95fa34",
     instance_name=nil,
     addresses=nil,
     flavor=nil,
     host_id=nil,
     image=nil,
-    metadata=    <Fog::Compute::OpenStack::Metadata
+    metadata=    <Fog::Compute::HuaweiCloud::Metadata
       []
     >,
     links=[{"href"=>"http://localhost:8774/v2/b5bf8e689bc64844b1d08094a2f2bdd5/servers/81746324-94ab-44fb-9aa9-ee0b4d95fa34", "rel"=>"self"}, {"href"=>"http://localhost:8774/b5bf8e689bc64844b1d08094a2f2bdd5/servers/81746324-94ab-44fb-9aa9-ee0b4d95fa34", "rel"=>"bookmark"}],
@@ -423,14 +423,14 @@ Notice that your server contains several `nil` attributes. To see the latest sta
 
 You can see that the server is currently being built:
 
-    <Fog::Compute::OpenStack::Server
+    <Fog::Compute::HuaweiCloud::Server
     id="5f50aeff-a745-4cbc-9f8b-0356142e6f95",
     instance_name=nil,
     addresses={"private"=>[{"OS-EXT-IPS-MAC:mac_addr"=>"fa:16:3e:71:0d:c4", "version"=>4, "addr"=>"10.0.0.2", "OS-EXT-IPS:type"=>"fixed"}]},
     flavor={"id"=>"1", "links"=>[{"href"=>"http://localhost:8774/b5bf8e689bc64844b1d08094a2f2bdd5/flavors/1", "rel"=>"bookmark"}]},
     host_id="bb705edc279c520d97ad6fbd0b8e75a5c716388616f58e527d0ff633",
     image={"id"=>"821e2b73-5aed-4f9d-aaa7-2f4f297779f3", "links"=>[{"href"=>"http://localhost:8774/b5bf8e689bc64844b1d08094a2f2bdd5/images/821e2b73-5aed-4f9d-aaa7-2f4f297779f3", "rel"=>"bookmark"}]},
-    metadata=    <Fog::Compute::OpenStack::Metadata
+    metadata=    <Fog::Compute::HuaweiCloud::Metadata
       []
     >,
     links=[{"href"=>"http://localhost:8774/v2/b5bf8e689bc64844b1d08094a2f2bdd5/servers/5f50aeff-a745-4cbc-9f8b-0356142e6f95", "rel"=>"self"}, {"href"=>"http://localhost:8774/b5bf8e689bc64844b1d08094a2f2bdd5/servers/5f50aeff-a745-4cbc-9f8b-0356142e6f95", "rel"=>"bookmark"}],
@@ -464,7 +464,7 @@ Fog can wait for the server to become ready as follows:
 
 	server.wait_for { ready? }
 
-**Note**: The `Fog::Compute::OpenStack::Server` instance returned from the create method contains a `password` attribute. The `password` attribute will NOT be present in subsequent retrievals either through `service.servers` or `service.servers.get my_server_id`.
+**Note**: The `Fog::Compute::HuaweiCloud::Server` instance returned from the create method contains a `password` attribute. The `password` attribute will NOT be present in subsequent retrievals either through `service.servers` or `service.servers.get my_server_id`.
 
 ### Additional Parameters
 
@@ -481,7 +481,7 @@ The `create` method also supports the following key values:
 	</tr>
 	<tr>
 		<td>:personality</td>
-		<td>Array of files to be injected onto the server. Please refer to the Fog <a href="http://rubydoc.info/github/fog/fog/Fog/Compute/OpenStack/Server:personality">personality </a> API documentation for further information.</td>
+		<td>Array of files to be injected onto the server. Please refer to the Fog <a href="http://rubydoc.info/github/fog/fog/Fog/Compute/HuaweiCloud/Server:personality">personality </a> API documentation for further information.</td>
 	</tr>
 </table>
 
@@ -632,5 +632,5 @@ Example code using Compute can be found [here](https://github.com/fog/fog/tree/m
 
 ## Additional Resources
 
-* [OpenStack Compute API](http://docs.openstack.org/api/openstack-compute/2/content/)
+* [HuaweiCloud Compute API](http://docs.openstack.org/api/openstack-compute/2/content/)
 * [more resources and feedback](common/resources.md)
