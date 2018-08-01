@@ -1,4 +1,3 @@
-puts "====microversion"
 require "test_helper"
 
 describe "when microversion" do
