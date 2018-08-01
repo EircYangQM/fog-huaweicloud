@@ -1,17 +1,17 @@
 require 'spec_helper'
 require_relative './shared_context'
-require 'fog/monitoring/openstack/models/metric'
+require 'fog/monitoring/huaweicloud/models/metric'
 require 'time'
 
-describe Fog::Monitoring::OpenStack do
-  spec_data_folder = 'spec/fixtures/openstack/monitoring'
+describe Fog::Monitoring::HuaweiCloud do
+  spec_data_folder = 'spec/fixtures/huaweicloud/monitoring'
 
   before :all do
-    openstack_vcr = OpenStackVCR.new(
+    huaweicloud_vcr = HuaweiCloudVCR.new(
       :vcr_directory => spec_data_folder,
-      :service_class => Fog::Monitoring::OpenStack
+      :service_class => Fog::Monitoring::HuaweiCloud
     )
-    @service      = openstack_vcr.service
+    @service      = huaweicloud_vcr.service
     @timestamp    = 146_375_736_714_3
   end
 
@@ -28,13 +28,13 @@ describe Fog::Monitoring::OpenStack do
 
       # create multiple metrics
 
-      metric_1 = Fog::Monitoring::OpenStack::Metric.new(:name       => 'sample_metric_1',
+      metric_1 = Fog::Monitoring::HuaweiCloud::Metric.new(:name       => 'sample_metric_1',
                                                         :timestamp  => @timestamp,
                                                         :dimensions => {"key1" => "value1"},
                                                         :value      => 42,
                                                         :value_meta => {"meta_key1" => "meta_value1"})
 
-      metric_2 = Fog::Monitoring::OpenStack::Metric.new(:name       => 'sample_metric_2',
+      metric_2 = Fog::Monitoring::HuaweiCloud::Metric.new(:name       => 'sample_metric_2',
                                                         :timestamp  => @timestamp,
                                                         :dimensions => {"key1" => "value1"},
                                                         :value      => 42,
@@ -144,7 +144,7 @@ describe Fog::Monitoring::OpenStack do
         # failure cases
         proc { @service.notification_methods.create(:name => "this won't be created due to insufficient args") }.
           must_raise ArgumentError
-        proc { @service.notification_methods.find_by_id('bogus_id') }.must_raise Fog::Monitoring::OpenStack::NotFound
+        proc { @service.notification_methods.find_by_id('bogus_id') }.must_raise Fog::Monitoring::HuaweiCloud::NotFound
 
       ensure
         notification_method.destroy if notification_method

@@ -1,15 +1,15 @@
 require 'spec_helper'
 require_relative './shared_context'
 
-describe Fog::Image::OpenStack do
-  spec_data_folder = 'spec/fixtures/openstack/image_v2'
+describe Fog::Image::HuaweiCloud do
+  spec_data_folder = 'spec/fixtures/huaweicloud/image_v2'
 
   before :all do
-    openstack_vcr = OpenStackVCR.new(
+    huaweicloud_vcr = HuaweiCloudVCR.new(
       :vcr_directory => spec_data_folder,
-      :service_class => Fog::Image::OpenStack # Fog to choose latest available version
+      :service_class => Fog::Image::HuaweiCloud # Fog to choose latest available version
     )
-    @service = openstack_vcr.service
+    @service = huaweicloud_vcr.service
   end
 
   def cleanup_image(image, image_name = nil, image_id = nil)
@@ -91,7 +91,7 @@ describe Fog::Image::OpenStack do
       identifier = "11111111-2222-3333-aaaa-bbbbbbcccce2"
       begin
         # Create an image with a specified ID
-        foobar_image = Fog::Image::OpenStack::V2::Image.new(
+        foobar_image = Fog::Image::HuaweiCloud::V2::Image.new(
           :name               => 'original_name',
           :id                 => identifier,
           :service            => @service,
@@ -205,7 +205,7 @@ describe Fog::Image::OpenStack do
     VCR.use_cassette('image_v2_activation') do
       image_name = 'foobar3a'
       # "no-op" virtual machine image, 80kB .ova file containing 64Mb dynamic disk
-      image_path = "spec/fixtures/openstack/image_v2/minimal.ova"
+      image_path = "spec/fixtures/huaweicloud/image_v2/minimal.ova"
 
       begin
         # Create an image called foobar2

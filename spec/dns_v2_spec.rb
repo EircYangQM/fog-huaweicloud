@@ -1,16 +1,16 @@
 require 'spec_helper'
 require_relative './shared_context'
 
-describe Fog::DNS::OpenStack::V2 do
-  spec_data_folder = 'spec/fixtures/openstack/dns_v2'
+describe Fog::DNS::HuaweiCloud::V2 do
+  spec_data_folder = 'spec/fixtures/huaweicloud/dns_v2'
 
   before :all do
-    openstack_vcr = OpenStackVCR.new(
+    huaweicloud_vcr = HuaweiCloudVCR.new(
       :vcr_directory  => spec_data_folder,
       :project_scoped => true,
-      :service_class  => Fog::DNS::OpenStack # Fog to choose latest available version
+      :service_class  => Fog::DNS::HuaweiCloud # Fog to choose latest available version
     )
-    @service = openstack_vcr.service
+    @service = huaweicloud_vcr.service
   end
 
   it "CRUD & list zones" do

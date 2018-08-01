@@ -1,21 +1,21 @@
 require 'spec_helper'
 require_relative './shared_context'
 
-describe Fog::Network::OpenStack do
+describe Fog::Network::HuaweiCloud do
   before :all do
-    openstack_vcr = OpenStackVCR.new(
-      :vcr_directory  => 'spec/fixtures/openstack/network',
-      :service_class  => Fog::Network::OpenStack,
+    huaweicloud_vcr = HuaweiCloudVCR.new(
+      :vcr_directory  => 'spec/fixtures/huaweicloud/network',
+      :service_class  => Fog::Network::HuaweiCloud,
       :project_scoped => true
     )
-    @service          = openstack_vcr.service
-    @current_project  = openstack_vcr.project_name
+    @service          = huaweicloud_vcr.service
+    @current_project  = huaweicloud_vcr.project_name
 
-    openstack_vcr = OpenStackVCR.new(
-      :vcr_directory => 'spec/fixtures/openstack/network',
-      :service_class => Fog::Identity::OpenStack::V3
+    huaweicloud_vcr = HuaweiCloudVCR.new(
+      :vcr_directory => 'spec/fixtures/huaweicloud/network',
+      :service_class => Fog::Identity::HuaweiCloud::V3
     )
-    @identity_service = openstack_vcr.service
+    @identity_service = huaweicloud_vcr.service
   end
 
   it 'CRUD subnets' do
@@ -78,18 +78,18 @@ describe Fog::Network::OpenStack do
 
   it 'fails at token expiration on auth with token but not with username+password' do
     VCR.use_cassette('token_expiration') do
-      @auth_token = @identity_service.credentials[:openstack_auth_token]
-      openstack_vcr = OpenStackVCR.new(
-        :vcr_directory  => 'spec/fixtures/openstack/network',
-        :service_class  => Fog::Network::OpenStack,
+      @auth_token = @identity_service.credentials[:huaweicloud_auth_token]
+      huaweicloud_vcr = HuaweiCloudVCR.new(
+        :vcr_directory  => 'spec/fixtures/huaweicloud/network',
+        :service_class  => Fog::Network::HuaweiCloud,
         :project_scoped => true,
         :token_auth     => true,
         :token          => @auth_token
       )
-      @service_with_token = openstack_vcr.service
+      @service_with_token = huaweicloud_vcr.service
 
       [@service_with_token, @service].each_with_index do |service, index|
-        @network_token = service.credentials[:openstack_auth_token]
+        @network_token = service.credentials[:huaweicloud_auth_token]
         # any network object would do, take sec group - at least we have a default
         @before = service.security_groups.all(:limit => 2).first.tenant_id
         # invalidate the token, hopefully it is not a palindrome

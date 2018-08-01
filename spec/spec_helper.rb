@@ -5,7 +5,7 @@
 require 'minitest/autorun'
 require 'vcr'
 require 'fog/core'
-require 'fog/openstack'
+require 'fog/huaweicloud'
 
 VCR.configure do |c|
   c.cassette_library_dir = 'spec/fixtures/openstack'

@@ -2,23 +2,23 @@ require 'vcr'
 #
 # There are basically two modes of operation for these specs.
 #
-# 1. ENV[OS_AUTH_URL] exists: talk to an actual OpenStack and record HTTP
+# 1. ENV[OS_AUTH_URL] exists: talk to an actual HuaweiCloud and record HTTP
 #    traffic in VCRs at "spec/debug" (credentials are read from the conventional
 #    environment variables: OS_AUTH_URL, OS_USERNAME, OS_PASSWORD etc.)
-# 2. otherwise (under Travis etc.): use VCRs at "spec/fixtures/openstack/#{service}"
+# 2. otherwise (under Travis etc.): use VCRs at "spec/fixtures/huaweicloud/#{service}"
 #
 # When you develop a new unit test or change an existing one:
 #
-# 1. Record interactions against an actual OpenStack (Devstack is usually
+# 1. Record interactions against an actual HuaweiCloud (Devstack is usually
 #    enough if configured correctly) using the first mode from above.
 # 2. Move the relevant VCRs from "spec/debug" to
-#    "spec/fixtures/openstack/#{service}".
-# 3. In these VCRs, string-replace your OpenStack's URLs/IPs by
-#    "devstack.openstack.stack". Also, string-replace the used tokens by the
+#    "spec/fixtures/huaweicloud/#{service}".
+# 3. In these VCRs, string-replace your HuaweiCloud's URLs/IPs by
+#    "devstack.huaweicloud.stack". Also, string-replace the used tokens by the
 #    token obtained in the "common_setup.yml".
 #
 
-class OpenStackVCR
+class HuaweiCloudVCR
   attr_reader :service,
               :os_auth_url,
               :project_name,
@@ -33,7 +33,7 @@ class OpenStackVCR
 
   # This method should be called in a "before :all" call to set everything up.
   # A properly configured instance of the service class (e.g.
-  # Fog::Volume::OpenStack) is then made available in @service.
+  # Fog::Volume::HuaweiCloud) is then made available in @service.
   def initialize(options)
     # read arguments
     # must_be_kind_of String
@@ -51,16 +51,16 @@ class OpenStackVCR
       Fog.interval = 0
       # use an auth URL that matches our VCR recordings (IdentityV2 for most
       # services, but IdentityV3 test obviously needs IdentityV3 auth URL)
-      @os_auth_url = if [Fog::Identity::OpenStack::V3,
-                         Fog::Volume::OpenStack,
-                         Fog::Volume::OpenStack::V1,
-                         Fog::Volume::OpenStack::V2,
-                         Fog::Image::OpenStack,
-                         Fog::Image::OpenStack::V1,
-                         Fog::Network::OpenStack,
-                         Fog::DNS::OpenStack,
-                         Fog::SharedFileSystem::OpenStack,
-                         Fog::Monitoring::OpenStack].include? @service_class
+      @os_auth_url = if [Fog::Identity::HuaweiCloud::V3,
+                         Fog::Volume::HuaweiCloud,
+                         Fog::Volume::HuaweiCloud::V1,
+                         Fog::Volume::HuaweiCloud::V2,
+                         Fog::Image::HuaweiCloud,
+                         Fog::Image::HuaweiCloud::V1,
+                         Fog::Network::HuaweiCloud,
+                         Fog::DNS::HuaweiCloud,
+                         Fog::SharedFileSystem::HuaweiCloud,
+                         Fog::Monitoring::HuaweiCloud].include? @service_class
                        'http://devstack.openstack.stack:5000/v3'
                      else
                        'http://devstack.openstack.stack:5000/v2.0'
@@ -90,7 +90,7 @@ class OpenStackVCR
 
     # setup the service object
     VCR.use_cassette('common_setup') do
-      Fog::OpenStack.clear_token_cache
+      Fog::HuaweiCloud.clear_token_cache
 
       @region        = 'RegionOne'
       @region_other  = 'europe'
@@ -117,33 +117,33 @@ class OpenStackVCR
         @project_name  = ENV['OS_PROJECT_NAME']      || options[:project_name] || @project_name
       end
 
-      if @service_class == Fog::Identity::OpenStack::V3 || @os_auth_url.end_with?('/v3')
+      if @service_class == Fog::Identity::HuaweiCloud::V3 || @os_auth_url.end_with?('/v3')
         connection_options = {
-          :openstack_auth_url      => "#{@os_auth_url}/auth/tokens",
-          :openstack_region        => @region,
-          :openstack_domain_name   => @domain_name,
-          :openstack_endpoint_type => @interface,
-          :openstack_cache_ttl     => 0
+          :huaweicloud_auth_url      => "#{@os_auth_url}/auth/tokens",
+          :huaweicloud_region        => @region,
+          :huaweicloud_domain_name   => @domain_name,
+          :huaweicloud_endpoint_type => @interface,
+          :huaweicloud_cache_ttl     => 0
         }
-        connection_options[:openstack_project_name] = @project_name if @with_project_scope
-        connection_options[:openstack_service_type] = [ENV['OS_AUTH_SERVICE']] if ENV['OS_AUTH_SERVICE']
+        connection_options[:huaweicloud_project_name] = @project_name if @with_project_scope
+        connection_options[:huaweicloud_service_type] = [ENV['OS_AUTH_SERVICE']] if ENV['OS_AUTH_SERVICE']
       else
         connection_options = {
-          :openstack_auth_url  => "#{@os_auth_url}/tokens",
-          :openstack_region    => @region,
-          :openstack_tenant    => @project_name,
-          :openstack_cache_ttl => 0
+          :huaweicloud_auth_url  => "#{@os_auth_url}/tokens",
+          :huaweicloud_region    => @region,
+          :huaweicloud_tenant    => @project_name,
+          :huaweicloud_cache_ttl => 0
           # FIXME: Identity V3 not properly supported by other services yet
-          # :openstack_user_domain    => ENV['OS_USER_DOMAIN_NAME']    || 'Default',
-          # :openstack_project_domain => ENV['OS_PROJECT_DOMAIN_NAME'] || 'Default',
+          # :huaweicloud_user_domain    => ENV['OS_USER_DOMAIN_NAME']    || 'Default',
+          # :huaweicloud_project_domain => ENV['OS_PROJECT_DOMAIN_NAME'] || 'Default',
         }
       end
 
       if @with_token_auth
-        connection_options[:openstack_auth_token] = @token
+        connection_options[:huaweicloud_auth_token] = @token
       else
-        connection_options[:openstack_username] = @username
-        connection_options[:openstack_api_key]  = @password
+        connection_options[:huaweicloud_username] = @username
+        connection_options[:huaweicloud_api_key]  = @password
       end
 
       @service = @service_class.new(connection_options)

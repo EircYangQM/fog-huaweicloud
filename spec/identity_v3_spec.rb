@@ -1,48 +1,48 @@
 require 'spec_helper'
 require_relative './shared_context'
 
-describe Fog::Identity::OpenStack::V3 do
+describe Fog::Identity::HuaweiCloud::V3 do
   before :all do
-    @openstack_vcr = OpenStackVCR.new(
-      :vcr_directory => 'spec/fixtures/openstack/identity_v3',
-      :service_class => Fog::Identity::OpenStack::V3
+    @huaweicloud_vcr = HuaweiCloudVCR.new(
+      :vcr_directory => 'spec/fixtures/huaweicloud/identity_v3',
+      :service_class => Fog::Identity::HuaweiCloud::V3
     )
-    @service = @openstack_vcr.service
-    @os_auth_url = @openstack_vcr.os_auth_url
+    @service = @huaweicloud_vcr.service
+    @os_auth_url = @huaweicloud_vcr.os_auth_url
   end
 
   it 'authenticates with password, userid and domain_id' do
     VCR.use_cassette('authv3_a') do
-      Fog::Identity::OpenStack::V3.new(
-        :openstack_domain_id => @openstack_vcr.domain_id,
-        :openstack_api_key   => @openstack_vcr.password,
-        :openstack_userid    => @openstack_vcr.user_id,
-        :openstack_region    => @openstack_vcr.region,
-        :openstack_auth_url  => "#{@os_auth_url}/auth/tokens"
+      Fog::Identity::HuaweiCloud::V3.new(
+        :huaweicloud_domain_id => @huaweicloud_vcr.domain_id,
+        :huaweicloud_api_key   => @huaweicloud_vcr.password,
+        :huaweicloud_userid    => @huaweicloud_vcr.user_id,
+        :huaweicloud_region    => @huaweicloud_vcr.region,
+        :huaweicloud_auth_url  => "#{@os_auth_url}/auth/tokens"
       )
     end
   end
 
   it 'authenticates with password, username and domain_id' do
     VCR.use_cassette('authv3_b') do
-      Fog::Identity::OpenStack::V3.new(
-        :openstack_domain_id => @openstack_vcr.domain_id,
-        :openstack_api_key   => @openstack_vcr.password,
-        :openstack_username  => @openstack_vcr.username,
-        :openstack_region    => @openstack_vcr.region,
-        :openstack_auth_url  => "#{@os_auth_url}/auth/tokens"
+      Fog::Identity::HuaweiCloud::V3.new(
+        :huaweicloud_domain_id => @huaweicloud_vcr.domain_id,
+        :huaweicloud_api_key   => @huaweicloud_vcr.password,
+        :huaweicloud_username  => @huaweicloud_vcr.username,
+        :huaweicloud_region    => @huaweicloud_vcr.region,
+        :huaweicloud_auth_url  => "#{@os_auth_url}/auth/tokens"
       )
     end
   end
 
   it 'authenticates with password, username and domain_name' do
     VCR.use_cassette('authv3_c') do
-      Fog::Identity::OpenStack::V3.new(
-        :openstack_user_domain => @openstack_vcr.domain_name,
-        :openstack_api_key     => @openstack_vcr.password,
-        :openstack_username    => @openstack_vcr.username,
-        :openstack_region      => @openstack_vcr.region,
-        :openstack_auth_url    => "#{@os_auth_url}/auth/tokens"
+      Fog::Identity::HuaweiCloud::V3.new(
+        :huaweicloud_user_domain => @huaweicloud_vcr.domain_name,
+        :huaweicloud_api_key     => @huaweicloud_vcr.password,
+        :huaweicloud_username    => @huaweicloud_vcr.username,
+        :huaweicloud_region      => @huaweicloud_vcr.region,
+        :huaweicloud_auth_url    => "#{@os_auth_url}/auth/tokens"
       )
     end
   end
@@ -51,14 +51,14 @@ describe Fog::Identity::OpenStack::V3 do
     VCR.use_cassette('idv3_endpoint') do
       @endpoints_all = @service.endpoints.all
     end
-    endpoints_in_region = @endpoints_all.select { |endpoint| endpoint.region == @openstack_vcr.region_other }
+    endpoints_in_region = @endpoints_all.select { |endpoint| endpoint.region == @huaweicloud_vcr.region_other }
 
     VCR.use_cassette('idv3_other_region') do
-      @fog = Fog::Identity::OpenStack::V3.new(
-        :openstack_region   => @openstack_vcr.region_other,
-        :openstack_auth_url => "#{@os_auth_url}/auth/tokens",
-        :openstack_userid   => @openstack_vcr.user_id,
-        :openstack_api_key  => @openstack_vcr.password
+      @fog = Fog::Identity::HuaweiCloud::V3.new(
+        :huaweicloud_region   => @huaweicloud_vcr.region_other,
+        :huaweicloud_auth_url => "#{@os_auth_url}/auth/tokens",
+        :huaweicloud_userid   => @huaweicloud_vcr.user_id,
+        :huaweicloud_api_key  => @huaweicloud_vcr.password
       )
       @fog.wont_equal nil
     end unless endpoints_in_region.empty?
@@ -66,36 +66,36 @@ describe Fog::Identity::OpenStack::V3 do
 
   it 'get an unscoped token, then reauthenticate with it' do
     VCR.use_cassette('authv3_unscoped_reauth') do
-      id_v3 = Fog::Identity::OpenStack::V3.new(
-        :openstack_api_key  => @openstack_vcr.password,
-        :openstack_userid   => @openstack_vcr.user_id,
-        :openstack_region   => @openstack_vcr.region,
-        :openstack_auth_url => "#{@os_auth_url}/auth/tokens"
+      id_v3 = Fog::Identity::HuaweiCloud::V3.new(
+        :huaweicloud_api_key  => @huaweicloud_vcr.password,
+        :huaweicloud_userid   => @huaweicloud_vcr.user_id,
+        :huaweicloud_region   => @huaweicloud_vcr.region,
+        :huaweicloud_auth_url => "#{@os_auth_url}/auth/tokens"
       )
 
       auth_params = {
-        :provider             => "openstack",
-        :openstack_auth_token => id_v3.credentials[:openstack_auth_token],
-        :openstack_auth_url   => "#{@os_auth_url}/auth/tokens",
-        :openstack_region     => @openstack_vcr.region
+        :provider             => "huaweicloud",
+        :huaweicloud_auth_token => id_v3.credentials[:huaweicloud_auth_token],
+        :huaweicloud_auth_url   => "#{@os_auth_url}/auth/tokens",
+        :huaweicloud_region     => @huaweicloud_vcr.region
       }
-      @fog2 = Fog::Identity::OpenStack::V3.new(auth_params)
+      @fog2 = Fog::Identity::HuaweiCloud::V3.new(auth_params)
 
       @fog2.wont_equal nil
-      token = @fog2.credentials[:openstack_auth_token]
+      token = @fog2.credentials[:huaweicloud_auth_token]
       token.wont_equal nil
     end
   end
 
   it 'authenticates with project scope' do
     VCR.use_cassette('authv3_project') do
-      Fog::Identity::OpenStack::V3.new(
-        :openstack_project_name => @openstack_vcr.project_name,
-        :openstack_domain_name  => @openstack_vcr.domain_name,
-        :openstack_api_key      => @openstack_vcr.password,
-        :openstack_username     => @openstack_vcr.username,
-        :openstack_region       => @openstack_vcr.region,
-        :openstack_auth_url     => "#{@os_auth_url}/auth/tokens"
+      Fog::Identity::HuaweiCloud::V3.new(
+        :huaweicloud_project_name => @huaweicloud_vcr.project_name,
+        :huaweicloud_domain_name  => @huaweicloud_vcr.domain_name,
+        :huaweicloud_api_key      => @huaweicloud_vcr.password,
+        :huaweicloud_username     => @huaweicloud_vcr.username,
+        :huaweicloud_region       => @huaweicloud_vcr.region,
+        :huaweicloud_auth_url     => "#{@os_auth_url}/auth/tokens"
       )
     end
   end
@@ -103,39 +103,39 @@ describe Fog::Identity::OpenStack::V3 do
   it 'get an unscoped token, then use it to get a scoped token' do
     VCR.use_cassette('authv3_unscoped') do
       skip 'get an unscoped token, then use it to get a scoped token to be fixed'
-      id_v3 = Fog::Identity::OpenStack::V3.new(
-        :openstack_api_key  => @openstack_vcr.password,
-        :openstack_userid   => @openstack_vcr.user_id,
-        :openstack_region   => @openstack_vcr.region,
-        :openstack_auth_url => "#{@os_auth_url}/auth/tokens"
+      id_v3 = Fog::Identity::HuaweiCloud::V3.new(
+        :huaweicloud_api_key  => @huaweicloud_vcr.password,
+        :huaweicloud_userid   => @huaweicloud_vcr.user_id,
+        :huaweicloud_region   => @huaweicloud_vcr.region,
+        :huaweicloud_auth_url => "#{@os_auth_url}/auth/tokens"
       )
 
       # Exchange it for a project-scoped token
-      auth = Fog::Identity::OpenStack::V3.new(
-        :openstack_project_name => @openstack_vcr.project_name,
-        :openstack_domain_name  => @openstack_vcr.domain_name,
-        :openstack_tenant       => @openstack_vcr.username,
-        :openstack_auth_token   => id_v3.credentials[:openstack_auth_token],
-        :openstack_region       => @openstack_vcr.region,
-        :openstack_auth_url     => "#{@os_auth_url}/auth/tokens"
+      auth = Fog::Identity::HuaweiCloud::V3.new(
+        :huaweicloud_project_name => @huaweicloud_vcr.project_name,
+        :huaweicloud_domain_name  => @huaweicloud_vcr.domain_name,
+        :huaweicloud_tenant       => @huaweicloud_vcr.username,
+        :huaweicloud_auth_token   => id_v3.credentials[:huaweicloud_auth_token],
+        :huaweicloud_region       => @huaweicloud_vcr.region,
+        :huaweicloud_auth_url     => "#{@os_auth_url}/auth/tokens"
       )
 
-      token = auth.credentials[:openstack_auth_token]
+      token = auth.credentials[:huaweicloud_auth_token]
 
       # We can use the unscoped token to validate the scoped token
       validated_token = id_v3.tokens.validate(token)
       validated_token.wont_equal nil
 
       id_v3.tokens.check(token)
-      proc { id_v3.tokens.check('random-token') }.must_raise Fog::Identity::OpenStack::NotFound
+      proc { id_v3.tokens.check('random-token') }.must_raise Fog::Identity::HuaweiCloud::NotFound
     end
   end
 
   it "find specific user, lists users" do
     VCR.use_cassette('idv3_users') do
-      proc { nonexistent_user = @service.users.find_by_id 'u-random-blah' }.must_raise Fog::Identity::OpenStack::NotFound
+      proc { nonexistent_user = @service.users.find_by_id 'u-random-blah' }.must_raise Fog::Identity::HuaweiCloud::NotFound
 
-      admin_user = @service.users.find_by_name @openstack_vcr.username
+      admin_user = @service.users.find_by_name @huaweicloud_vcr.username
       admin_user.length.must_equal 1
 
       users = @service.users
@@ -193,7 +193,7 @@ describe Fog::Identity::OpenStack::V3 do
       # Delete the user
       baz_user.destroy
       # Check that the deletion worked
-      proc { @service.users.find_by_id foobar_id }.must_raise Fog::Identity::OpenStack::NotFound
+      proc { @service.users.find_by_id foobar_id }.must_raise Fog::Identity::HuaweiCloud::NotFound
       @service.users.all.select { |user| ['foobar', 'baz'].include? user.name }.length.must_equal 0
       @service.users.find_by_name('foobar').length.must_equal 0
       @service.users.find_by_name('baz').length.must_equal 0
@@ -256,7 +256,7 @@ describe Fog::Identity::OpenStack::V3 do
 
       # Delete the group
       baz_group.destroy
-      proc { @service.groups.find_by_id foobar_id }.must_raise Fog::Identity::OpenStack::NotFound
+      proc { @service.groups.find_by_id foobar_id }.must_raise Fog::Identity::HuaweiCloud::NotFound
       @service.groups.all.select { |group| ['foobar', 'baz'].include? group.name }.length.must_equal 0
     end
   end
@@ -269,17 +269,17 @@ describe Fog::Identity::OpenStack::V3 do
             :methods  => %w(password),
             :password => {
               :user => {
-                :id       => @openstack_vcr.user_id,
-                :password => @openstack_vcr.password
+                :id       => @huaweicloud_vcr.user_id,
+                :password => @huaweicloud_vcr.password
               }
             }
           },
           :scope    => {
             :project => {
               :domain => {
-                :name => @openstack_vcr.domain_name
+                :name => @huaweicloud_vcr.domain_name
               },
-              :name   => @openstack_vcr.project_name
+              :name   => @huaweicloud_vcr.project_name
             }
           }
         }
@@ -294,7 +294,7 @@ describe Fog::Identity::OpenStack::V3 do
       @service.tokens.check(token.value)
       @service.tokens.revoke(token.value)
 
-      proc { @service.tokens.check(token.value) }.must_raise Fog::Identity::OpenStack::NotFound
+      proc { @service.tokens.check(token.value) }.must_raise Fog::Identity::HuaweiCloud::NotFound
     end
   end
 
@@ -308,35 +308,35 @@ describe Fog::Identity::OpenStack::V3 do
         foobar_user = @service.users.create(
           :name      => 'foobar_385',
           :email     => 'foobar_demo@example.com',
-          :domain_id => @openstack_vcr.domain_id,
+          :domain_id => @huaweicloud_vcr.domain_id,
           :password  => 's3cret!'
         )
 
         foobar_role = @service.roles.create(:name => 'foobar_role390')
         foobar_user.grant_role(foobar_role.id)
 
-        nonadmin_v3 = Fog::Identity::OpenStack::V3.new(
-          :openstack_domain_id => foobar_user.domain_id,
-          :openstack_api_key   => 's3cret!',
-          :openstack_username  => 'foobar_385',
-          :openstack_region    => @openstack_vcr.region,
-          :openstack_auth_url  => auth_url
+        nonadmin_v3 = Fog::Identity::HuaweiCloud::V3.new(
+          :huaweicloud_domain_id => foobar_user.domain_id,
+          :huaweicloud_api_key   => 's3cret!',
+          :huaweicloud_username  => 'foobar_385',
+          :huaweicloud_region    => @huaweicloud_vcr.region,
+          :huaweicloud_auth_url  => auth_url
         )
 
-        # Test - check the token validity by using it to create a new Fog::Identity::OpenStack::V3 instance
-        token_check = Fog::Identity::OpenStack::V3.new(
-          :openstack_auth_token => nonadmin_v3.auth_token,
-          :openstack_region     => @openstack_vcr.region,
-          :openstack_auth_url   => auth_url
+        # Test - check the token validity by using it to create a new Fog::Identity::HuaweiCloud::V3 instance
+        token_check = Fog::Identity::HuaweiCloud::V3.new(
+          :huaweicloud_auth_token => nonadmin_v3.auth_token,
+          :huaweicloud_region     => @huaweicloud_vcr.region,
+          :huaweicloud_auth_url   => auth_url
         )
 
         token_check.wont_equal nil
 
         proc do
-          Fog::Identity::OpenStack::V3.new(
-            :openstack_auth_token => 'blahblahblah',
-            :openstack_region     => @openstack_vcr.region,
-            :openstack_auth_url   => auth_url
+          Fog::Identity::HuaweiCloud::V3.new(
+            :huaweicloud_auth_token => 'blahblahblah',
+            :huaweicloud_region     => @huaweicloud_vcr.region,
+            :huaweicloud_auth_url   => auth_url
           )
         end.must_raise Excon::Errors::NotFound
       ensure
@@ -359,10 +359,10 @@ describe Fog::Identity::OpenStack::V3 do
       domains_all.wont_equal nil
       domains_all.length.wont_equal 0
 
-      default_domain = @service.domains.find_by_id @openstack_vcr.domain_id
+      default_domain = @service.domains.find_by_id @huaweicloud_vcr.domain_id
       default_domain.wont_equal nil
 
-      proc { @service.domains.find_by_id 'atlantis' }.must_raise Fog::Identity::OpenStack::NotFound
+      proc { @service.domains.find_by_id 'atlantis' }.must_raise Fog::Identity::HuaweiCloud::NotFound
     end
   end
 
@@ -394,7 +394,7 @@ describe Fog::Identity::OpenStack::V3 do
         rescue
         end
         # Check that the deletion worked
-        proc { @service.domains.find_by_id foobar_id }.must_raise Fog::Identity::OpenStack::NotFound if foobar_id
+        proc { @service.domains.find_by_id foobar_id }.must_raise Fog::Identity::HuaweiCloud::NotFound if foobar_id
         ['foobar', 'baz'].each do |domain_name|
           @service.domains.all(:name => domain_name).length.must_equal 0
         end
@@ -523,7 +523,7 @@ describe Fog::Identity::OpenStack::V3 do
       role_by_id = @service.roles.find_by_id roles_all.first.id
       role_by_id.wont_equal nil
 
-      proc { @service.roles.find_by_id 'atlantis' }.must_raise Fog::Identity::OpenStack::NotFound
+      proc { @service.roles.find_by_id 'atlantis' }.must_raise Fog::Identity::HuaweiCloud::NotFound
     end
   end
 
@@ -547,7 +547,7 @@ describe Fog::Identity::OpenStack::V3 do
         baz_role.destroy
         baz_role = nil
         # Check that the deletion worked
-        proc { @service.roles.find_by_id foobar_id }.must_raise Fog::Identity::OpenStack::NotFound if foobar_id
+        proc { @service.roles.find_by_id foobar_id }.must_raise Fog::Identity::HuaweiCloud::NotFound if foobar_id
         ['foobar23', 'baz23'].each do |role_name|
           @service.roles.all(:name => role_name).length.must_equal 0
         end
@@ -574,13 +574,13 @@ describe Fog::Identity::OpenStack::V3 do
       project_byid = @service.projects.find_by_id projects_all.first.id
       project_byid.wont_equal nil
 
-      proc { @service.projects.find_by_id 'atlantis' }.must_raise Fog::Identity::OpenStack::NotFound
+      proc { @service.projects.find_by_id 'atlantis' }.must_raise Fog::Identity::HuaweiCloud::NotFound
     end
   end
 
   it "CRUD projects" do
     VCR.use_cassette('idv3_project_crud') do
-      default_domain = @service.domains.find_by_id @openstack_vcr.domain_id
+      default_domain = @service.domains.find_by_id @huaweicloud_vcr.domain_id
 
       begin
         # Create a project called foobar - should not work without domain id?
@@ -604,7 +604,7 @@ describe Fog::Identity::OpenStack::V3 do
         baz_project.destroy
 
         # Check that the deletion worked
-        proc { @service.projects.find_by_id foobar_id }.must_raise Fog::Identity::OpenStack::NotFound
+        proc { @service.projects.find_by_id foobar_id }.must_raise Fog::Identity::HuaweiCloud::NotFound
         ['p-foobar46', 'p-baz46'].each do |project_name|
           @service.projects.all(:name => project_name).length.must_equal 0
         end
@@ -691,7 +691,7 @@ describe Fog::Identity::OpenStack::V3 do
         prj_role = @service.roles.all(:name => 'r-project67').first unless prj_role
         prj_role.destroy if prj_role
         # Check that the deletion worked
-        proc { @service.projects.find_by_id foobar_id }.must_raise Fog::Identity::OpenStack::NotFound if foobar_id
+        proc { @service.projects.find_by_id foobar_id }.must_raise Fog::Identity::HuaweiCloud::NotFound if foobar_id
         ['p-booboo67', 'p-fooboo67', 'p-boo67', 'p-baz67', 'p-foobar67'].each do |project_name|
           prj = @service.projects.all(:name => project_name).first
           prj.destroy if prj
@@ -803,7 +803,7 @@ describe Fog::Identity::OpenStack::V3 do
       some_service = @service.services.find_by_id services_all.first.id
       some_service.wont_equal nil
 
-      proc { @service.services.find_by_id 'atlantis' }.must_raise Fog::Identity::OpenStack::NotFound
+      proc { @service.services.find_by_id 'atlantis' }.must_raise Fog::Identity::HuaweiCloud::NotFound
     end
   end
 
@@ -832,7 +832,7 @@ describe Fog::Identity::OpenStack::V3 do
         baz_service.destroy if baz_service
 
         # Check that the deletion worked
-        proc { @service.services.find_by_id foobar_id }.must_raise Fog::Identity::OpenStack::NotFound if foobar_id
+        proc { @service.services.find_by_id foobar_id }.must_raise Fog::Identity::HuaweiCloud::NotFound if foobar_id
         @service.services.all.select { |service| ['foobar', 'baz'].include? service.name }.length.must_equal 0
       end
     end
@@ -851,7 +851,7 @@ describe Fog::Identity::OpenStack::V3 do
       some_endpoint = @service.endpoints.find_by_id endpoints_all.first.id
       some_endpoint.wont_equal nil
 
-      proc { @service.endpoints.find_by_id 'atlantis' }.must_raise Fog::Identity::OpenStack::NotFound
+      proc { @service.endpoints.find_by_id 'atlantis' }.must_raise Fog::Identity::HuaweiCloud::NotFound
     end
   end
 
@@ -887,7 +887,7 @@ describe Fog::Identity::OpenStack::V3 do
         baz_endpoint.destroy
 
         # Check that the deletion worked
-        proc { @service.endpoints.find_by_id foobar_id }.must_raise Fog::Identity::OpenStack::NotFound
+        proc { @service.endpoints.find_by_id foobar_id }.must_raise Fog::Identity::HuaweiCloud::NotFound
         @service.endpoints.all.select { |endpoint| ['foobar', 'baz'].include? endpoint.name }.length.must_equal 0
       end
     end
@@ -901,7 +901,7 @@ describe Fog::Identity::OpenStack::V3 do
       credentials_all = @service.os_credentials.all
       credentials_all.wont_equal nil
 
-      proc { @service.os_credentials.find_by_id 'atlantis' }.must_raise Fog::Identity::OpenStack::NotFound
+      proc { @service.os_credentials.find_by_id 'atlantis' }.must_raise Fog::Identity::HuaweiCloud::NotFound
     end
   end
 
@@ -917,7 +917,7 @@ describe Fog::Identity::OpenStack::V3 do
         access_key = '9c4e774a-f644-498f-90c4-970b3f817fc5'
         secret_key = '7e084117-b13d-4656-9eca-85376b690897'
 
-        # OpenStack Keystone requires the blob to be a JSON string - i.e. not JSON, but a string containing JSON :-/
+        # HuaweiCloud Keystone requires the blob to be a JSON string - i.e. not JSON, but a string containing JSON :-/
         blob_json = {:access => access_key,
                      :secret => secret_key}.to_json
 
@@ -963,7 +963,7 @@ describe Fog::Identity::OpenStack::V3 do
         end
 
         # Check that the deletion worked
-        proc { @service.os_credentials.find_by_id credential_id }.must_raise Fog::Identity::OpenStack::NotFound if credential_id
+        proc { @service.os_credentials.find_by_id credential_id }.must_raise Fog::Identity::HuaweiCloud::NotFound if credential_id
         @service.os_credentials.all.select { |credential| credential.type == 'ec2' }.length.must_equal 0
       end
     end
@@ -979,7 +979,7 @@ describe Fog::Identity::OpenStack::V3 do
       policies_all.wont_equal nil
       policies_all.length.must_equal 0
 
-      proc { @service.policies.find_by_id 'atlantis' }.must_raise Fog::Identity::OpenStack::NotFound
+      proc { @service.policies.find_by_id 'atlantis' }.must_raise Fog::Identity::HuaweiCloud::NotFound
     end
   end
 
@@ -1012,7 +1012,7 @@ describe Fog::Identity::OpenStack::V3 do
       updated_policy.destroy
 
       # Check that the deletion worked
-      proc { @service.policies.find_by_id policy_id }.must_raise Fog::Identity::OpenStack::NotFound
+      proc { @service.policies.find_by_id policy_id }.must_raise Fog::Identity::HuaweiCloud::NotFound
       @service.policies.all.select { |policy| policy.type == 'application/json' }.length.must_equal 0
     end
   end

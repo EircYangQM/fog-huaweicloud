@@ -1,23 +1,23 @@
 require 'spec_helper'
 require_relative './shared_context'
 
-describe Fog::SharedFileSystem::OpenStack do
-  spec_data_folder = 'spec/fixtures/openstack/shared_file_system'
+describe Fog::SharedFileSystem::HuaweiCloud do
+  spec_data_folder = 'spec/fixtures/huaweicloud/shared_file_system'
 
   before :all do
-    openstack_vcr = OpenStackVCR.new(
+    huaweicloud_vcr = HuaweiCloudVCR.new(
       :vcr_directory  => spec_data_folder,
       :project_scoped => true,
-      :service_class  => Fog::SharedFileSystem::OpenStack
+      :service_class  => Fog::SharedFileSystem::HuaweiCloud
     )
-    @service = openstack_vcr.service
+    @service = huaweicloud_vcr.service
 
-    net_openstack_vcr = OpenStackVCR.new(
+    net_huaweicloud_vcr = HuaweiCloudVCR.new(
       :vcr_directory  => spec_data_folder,
       :project_scoped => true,
-      :service_class  => Fog::Network::OpenStack
+      :service_class  => Fog::Network::HuaweiCloud
     )
-    @network_service = net_openstack_vcr.service
+    @network_service = net_huaweicloud_vcr.service
   end
 
   it 'CRUD & list shares' do

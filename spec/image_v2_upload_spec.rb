@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Fog::Image::OpenStack do
+describe Fog::Image::HuaweiCloud do
   it "Upload/download image data using chunked IO" do
     if ENV['OS_AUTH_URL'] # We only run this against a live system, because VCR's use of Webmock stops Excon :response_block from working correctly
 
@@ -10,13 +10,13 @@ describe Fog::Image::OpenStack do
       Excon.defaults[:ssl_verify_peer] = false if ENV['SSL_VERIFY_PEER'] == 'false'
 
       # setup the service object
-      @service = Fog::Image::OpenStack.new(
-        :openstack_auth_url     => "#{@os_auth_url}/auth/tokens",
-        :openstack_project_name => ENV.fetch('OS_PROJECT_NAME'),
-        :openstack_username     => ENV.fetch('OS_USERNAME'),
-        :openstack_api_key      => ENV.fetch('OS_PASSWORD'),
-        :openstack_region       => ENV['OS_REGION_NAME'] || 'RegionOne',
-        :openstack_domain_name  => ENV['OS_USER_DOMAIN_NAME'] || 'Default'
+      @service = Fog::Image::HuaweiCloud.new(
+        :huaweicloud_auth_url     => "#{@os_auth_url}/auth/tokens",
+        :huaweicloud_project_name => ENV.fetch('OS_PROJECT_NAME'),
+        :huaweicloud_username     => ENV.fetch('OS_USERNAME'),
+        :huaweicloud_api_key      => ENV.fetch('OS_PASSWORD'),
+        :huaweicloud_region       => ENV['OS_REGION_NAME'] || 'RegionOne',
+        :huaweicloud_domain_name  => ENV['OS_USER_DOMAIN_NAME'] || 'Default'
       ) unless @service
 
       spec_data_folder = 'spec/fixtures/openstack/image_v2'
@@ -60,7 +60,7 @@ describe Fog::Image::OpenStack do
         @service.images.all(:name => 'foobar_up2').each(&:destroy)
 
         # Check that the deletion worked
-        proc { @service.images.find_by_id foobar_id }.must_raise Fog::Image::OpenStack::NotFound if foobar_id
+        proc { @service.images.find_by_id foobar_id }.must_raise Fog::Image::HuaweiCloud::NotFound if foobar_id
         @service.images.all(:name => 'foobar_up2').length.must_equal 0
       end
     end

@@ -2,22 +2,22 @@ require 'spec_helper'
 require_relative './shared_context'
 
 [
-  Fog::Volume::OpenStack,
-  Fog::Volume::OpenStack::V1,
-  Fog::Volume::OpenStack::V2
+  Fog::Volume::HuaweiCloud,
+  Fog::Volume::HuaweiCloud::V1,
+  Fog::Volume::HuaweiCloud::V2
 ].delete_if { |the_class| ENV['TEST_CLASS'] && ENV['TEST_CLASS'] != the_class.name }.each do |service_class|
   describe service_class do
     before :all do
-      vcr_directory = 'spec/fixtures/openstack/volume' if service_class == Fog::Volume::OpenStack
-      vcr_directory = 'spec/fixtures/openstack/volume_v1' if service_class == Fog::Volume::OpenStack::V1
-      vcr_directory = 'spec/fixtures/openstack/volume_v2' if service_class == Fog::Volume::OpenStack::V2
+      vcr_directory = 'spec/fixtures/huaweicloud/volume' if service_class == Fog::Volume::HuaweiCloud
+      vcr_directory = 'spec/fixtures/huaweicloud/volume_v1' if service_class == Fog::Volume::HuaweiCloud::V1
+      vcr_directory = 'spec/fixtures/huaweicloud/volume_v2' if service_class == Fog::Volume::HuaweiCloud::V2
 
-      openstack_vcr = OpenStackVCR.new(
+      huaweicloud_vcr = HuaweiCloudVCR.new(
         :vcr_directory => vcr_directory,
         :service_class => service_class
       )
-      @service           = openstack_vcr.service
-      @os_auth_url       = openstack_vcr.os_auth_url
+      @service           = huaweicloud_vcr.service
+      @os_auth_url       = huaweicloud_vcr.os_auth_url
 
       # Account for the different parameter naming between v1 and v2 services
       @name_param        = :display_name unless v2?
@@ -28,7 +28,7 @@ require_relative './shared_context'
     end
 
     def v2?
-      @service.kind_of? Fog::Volume::OpenStack::V2::Real
+      @service.kind_of? Fog::Volume::HuaweiCloud::V2::Real
     end
 
     def setup_test_object(options)
@@ -117,7 +117,7 @@ require_relative './shared_context'
           puts "Retrieving volume by ID..." if ENV['DEBUG_VERBOSE']
 
           volume = @service.volumes.get(volume_id)
-          volume.must_be_kind_of Fog::Volume::OpenStack::Volume
+          volume.must_be_kind_of Fog::Volume::HuaweiCloud::Volume
 
           volume.id.must_equal volume_id
           volume.display_name.must_equal volume_name unless v2?
@@ -135,7 +135,7 @@ require_relative './shared_context'
           volumes = @service.volumes.all(@name_param => volume_name)
           volumes.length.must_equal 1
           volume = volumes[0]
-          volume.must_be_kind_of Fog::Volume::OpenStack::Volume
+          volume.must_be_kind_of Fog::Volume::HuaweiCloud::Volume
 
           volume.id.must_equal volume_id
           volume.display_name.must_equal volume_name unless v2?
@@ -149,7 +149,7 @@ require_relative './shared_context'
 
           volumes = @service.volumes.all(@name_param => volume_new_name)
           volume  = volumes.first
-          volume.must_be_kind_of Fog::Volume::OpenStack::Volume
+          volume.must_be_kind_of Fog::Volume::HuaweiCloud::Volume
           volume.display_name.must_equal volume_new_name unless v2?
           volume.name.must_equal volume_new_name if v2?
 
@@ -186,7 +186,7 @@ require_relative './shared_context'
         puts "Retrieving volume type by ID..." if ENV['DEBUG_VERBOSE']
 
         type = @service.volume_types.get(type_id)
-        type.must_be_kind_of Fog::Volume::OpenStack::VolumeType
+        type.must_be_kind_of Fog::Volume::HuaweiCloud::VolumeType
         type.id.must_equal type_id
         type.name.must_equal type_name
 
@@ -194,7 +194,7 @@ require_relative './shared_context'
         puts "Retrieving volume type by name..." if ENV['DEBUG_VERBOSE']
 
         type = @service.volume_types.all(type_name).first
-        type.must_be_kind_of Fog::Volume::OpenStack::VolumeType
+        type.must_be_kind_of Fog::Volume::HuaweiCloud::VolumeType
         type.id.must_equal type_id
         type.name.must_equal type_name
       end
@@ -233,7 +233,7 @@ require_relative './shared_context'
 
           # check that extending a non-existing volume fails
           puts "Extending deleted volume should fail..." if ENV['DEBUG_VERBOSE']
-          proc { @service.extend_volume(volume.id, volume_size_small) }.must_raise Fog::Volume::OpenStack::NotFound
+          proc { @service.extend_volume(volume.id, volume_size_small) }.must_raise Fog::Volume::HuaweiCloud::NotFound
         end
       end
     end
@@ -264,7 +264,7 @@ require_relative './shared_context'
           puts 'Retrieving transfer by ID...' if ENV['DEBUG_VERBOSE']
 
           transfer = @service.transfers.get(transfer_id)
-          transfer.must_be_kind_of Fog::Volume::OpenStack::Transfer
+          transfer.must_be_kind_of Fog::Volume::HuaweiCloud::Transfer
 
           transfer.id.must_equal transfer_id
           transfer.name.must_equal transfer_name
@@ -276,7 +276,7 @@ require_relative './shared_context'
           transfers = @service.transfers.all(:name => transfer_name)
           transfers.length.must_equal 1
           transfer = transfers[0]
-          transfer.must_be_kind_of Fog::Volume::OpenStack::Transfer
+          transfer.must_be_kind_of Fog::Volume::HuaweiCloud::Transfer
 
           transfer.id.must_equal transfer_id
           transfer.name.must_equal transfer_name
@@ -285,12 +285,12 @@ require_relative './shared_context'
           # to accept the transfer, we need a second connection to a different project
           puts 'Checking object visibility from different projects...' if ENV['DEBUG_VERBOSE']
           other_service = service_class.new(
-            :openstack_auth_url     => "#{@os_auth_url}/auth/tokens",
-            :openstack_region       => ENV['OS_REGION_NAME'] || 'RegionOne',
-            :openstack_api_key      => ENV['OS_PASSWORD_OTHER'] || 'password',
-            :openstack_username     => ENV['OS_USERNAME_OTHER'] || 'demo',
-            :openstack_domain_name  => ENV['OS_USER_DOMAIN_NAME'] || 'Default',
-            :openstack_project_name => ENV['OS_PROJECT_NAME_OTHER'] || 'demo'
+            :huaweicloud_auth_url     => "#{@os_auth_url}/auth/tokens",
+            :huaweicloud_region       => ENV['OS_REGION_NAME'] || 'RegionOne',
+            :huaweicloud_api_key      => ENV['OS_PASSWORD_OTHER'] || 'password',
+            :huaweicloud_username     => ENV['OS_USERNAME_OTHER'] || 'demo',
+            :huaweicloud_domain_name  => ENV['OS_USER_DOMAIN_NAME'] || 'Default',
+            :huaweicloud_project_name => ENV['OS_PROJECT_NAME_OTHER'] || 'demo'
           )
 
           # check that recipient cannot see the transfer object
@@ -298,7 +298,7 @@ require_relative './shared_context'
           other_service.transfers.all(:name => transfer_name).length.must_equal 0
 
           # # check that recipient cannot see the volume before transfer
-          # proc { other_service.volumes.get(volume.id) }.must_raise Fog::Compute::OpenStack::NotFound
+          # proc { other_service.volumes.get(volume.id) }.must_raise Fog::Compute::HuaweiCloud::NotFound
           # other_service.volumes.all(@name_param => volume_name).length.must_equal 0
 
           # The recipient can inexplicably see the volume even before the
@@ -308,23 +308,23 @@ require_relative './shared_context'
 
           # check that accept_transfer fails without valid transfer ID and auth key
           bogus_uuid = 'ec8ff7e8-81e2-4e12-b9fb-3e8890612c2d' # from Fog::UUID.uuid, but fixed to play nice with VCR
-          proc { other_service.transfers.accept(bogus_uuid, auth_key) }.must_raise Fog::Volume::OpenStack::NotFound
+          proc { other_service.transfers.accept(bogus_uuid, auth_key) }.must_raise Fog::Volume::HuaweiCloud::NotFound
           proc { other_service.transfers.accept(transfer_id, 'invalidauthkey') }.must_raise Excon::Errors::BadRequest
 
           # accept transfer
           puts 'Accepting transfer...' if ENV['DEBUG_VERBOSE']
           transfer = other_service.transfers.accept(transfer.id, auth_key)
-          transfer.must_be_kind_of Fog::Volume::OpenStack::Transfer
+          transfer.must_be_kind_of Fog::Volume::HuaweiCloud::Transfer
 
           transfer.id.must_equal transfer_id
           transfer.name.must_equal transfer_name
 
           # check that recipient can see the volume
           volume = other_service.volumes.get(volume.id)
-          volume.must_be_kind_of Fog::Volume::OpenStack::Volume
+          volume.must_be_kind_of Fog::Volume::HuaweiCloud::Volume
 
           # # check that sender cannot see the volume anymore
-          # proc { @service.volumes.get(volume.id) }.must_raise Fog::Compute::OpenStack::NotFound
+          # proc { @service.volumes.get(volume.id) }.must_raise Fog::Compute::HuaweiCloud::NotFound
           # @service.volumes.all(@name_param => volume_name).length.must_equal 0
 
           # As noted above, both users seem to be able to see the volume at all times.
@@ -368,12 +368,12 @@ require_relative './shared_context'
 
             # to try to accept the transfer, we need a second connection to a different project
             other_service = service_class.new(
-              :openstack_auth_url     => "#{@os_auth_url}/auth/tokens",
-              :openstack_region       => ENV['OS_REGION_NAME'] || 'RegionOne',
-              :openstack_api_key      => ENV['OS_PASSWORD_OTHER'] || 'password',
-              :openstack_username     => ENV['OS_USERNAME_OTHER'] || 'demo',
-              :openstack_domain_name  => ENV['OS_USER_DOMAIN_NAME'] || 'Default',
-              :openstack_project_name => ENV['OS_PROJECT_NAME_OTHER'] || 'demo'
+              :huaweicloud_auth_url     => "#{@os_auth_url}/auth/tokens",
+              :huaweicloud_region       => ENV['OS_REGION_NAME'] || 'RegionOne',
+              :huaweicloud_api_key      => ENV['OS_PASSWORD_OTHER'] || 'password',
+              :huaweicloud_username     => ENV['OS_USERNAME_OTHER'] || 'demo',
+              :huaweicloud_domain_name  => ENV['OS_USER_DOMAIN_NAME'] || 'Default',
+              :huaweicloud_project_name => ENV['OS_PROJECT_NAME_OTHER'] || 'demo'
             )
 
             # delete transfer again
@@ -381,7 +381,7 @@ require_relative './shared_context'
 
             # check that transfer cannot be accepted when it has been deleted
             puts 'Checking that accepting a deleted transfer fails...' if ENV['DEBUG_VERBOSE']
-            proc { other_service.transfers.accept(transfer_id, auth_key) }.must_raise Fog::Volume::OpenStack::NotFound
+            proc { other_service.transfers.accept(transfer_id, auth_key) }.must_raise Fog::Volume::HuaweiCloud::NotFound
           ensure
             # cleanup volume
             cleanup_test_object(@service.volumes, volume.id) if volume
@@ -439,7 +439,7 @@ require_relative './shared_context'
           # cleanup volume
           begin
             snapshot.destroy if snapshot
-          rescue Fog::Volume::OpenStack::NotFound
+          rescue Fog::Volume::HuaweiCloud::NotFound
             # Don't care if it doesn't exist
           end
 
