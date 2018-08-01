@@ -20,7 +20,7 @@ module Fog
       end
 
       class Mock
-        def delete_subnet(subnet_id, vpc_id)
+        def delete_subnet(subnet_id, vpc_id=nil)
           response = Excon::Response.new
           if list_subnets.body['subnets'].map { |r| r['id'] }.include? subnet_id
             data[:subnets].delete(subnet_id)

@@ -1,4 +1,4 @@
-require 'fog/workflow/openstack'
+require 'fog/workflow/huaweicloud'
 
 module Fog
   module Workflow

@@ -1,4 +1,4 @@
-require 'fog/dns/openstack'
+require 'fog/dns/huaweicloud'
 
 module Fog
   module DNS
@@ -87,7 +87,7 @@ module Fog
           end
 
           def credentials
-            {:provider                 => 'openstack',
+            {:provider                 => 'huaweicloud',
              :huaweicloud_auth_url       => @huaweicloud_auth_uri.to_s,
              :huaweicloud_auth_token     => @auth_token,
              :huaweicloud_region         => @huaweicloud_region,

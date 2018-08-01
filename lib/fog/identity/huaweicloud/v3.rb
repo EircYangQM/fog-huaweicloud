@@ -1,4 +1,4 @@
-require 'fog/identity/openstack'
+require 'fog/identity/huaweicloud'
 
 module Fog
   module Identity
