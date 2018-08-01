@@ -15,7 +15,7 @@ See the list of [supported OpenStack projects](supported.md).
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'fog-openstack'
+gem 'fog-huaweicloud'
 ```
 
 And then execute:
@@ -24,7 +24,7 @@ And then execute:
 
 Or install it yourself as:
 
-    $ gem install fog-openstack
+    $ gem install fog-huaweicloud
 
 ## Usage
 
@@ -33,36 +33,36 @@ Or install it yourself as:
 Require the gem:
 
 ```ruby
-require "fog/openstack"
+require "fog/huaweicloud"
 ```
 
 Checklist:
 
 * Before you can do anything with an OpenStack cloud, you need to authenticate yourself with the identity service, "Keystone".
 * All following examples assume that `@connection_params` is a hash of valid connection information for an OpenStack cloud.
-* The `:openstack_username` and `:openstack_api_key` keys must map to a valid user/password combination in Keystone.
+* The `:huaweicloud_username` and `:huaweicloud_api_key` keys must map to a valid user/password combination in Keystone.
 * If you don't know what domain your user belongs to, chances are it's the `default` domain. By default, all users are a member of the `default` domain unless otherwise specified.
 
 Connection parameters:
 
 ```ruby
 @connection_params = {
-  openstack_auth_url:     "http://devstack.test:5000/v3/auth/tokens",
-  openstack_username:     "admin",
-  openstack_api_key:      "password",
-  openstack_project_name: "admin",
-  openstack_domain_id:    "default"
+  huaweicloud_auth_url:     "http://devstack.test:5000/v3/auth/tokens",
+  huaweicloud_username:     "admin",
+  huaweicloud_api_key:      "password",
+  huaweicloud_project_name: "admin",
+  huaweicloud_domain_id:    "default"
 }
 ```
 
-If you're using Keystone V2, you don't need to supply domain details but ensure the `openstack_auth_url` parameter references the correct endpoint.
+If you're using Keystone V2, you don't need to supply domain details but ensure the `huaweicloud_auth_url` parameter references the correct endpoint.
 
 ```ruby
 @connection_params = {
-  openstack_auth_url:     "http://devstack.test:5000/v2.0/tokens",
-  openstack_username:     "admin",
-  openstack_api_key:      "password",
-  openstack_project_name: "admin"
+  huaweicloud_auth_url:     "http://devstack.test:5000/v2.0/tokens",
+  huaweicloud_username:     "admin",
+  huaweicloud_api_key:      "password",
+  huaweicloud_project_name: "admin"
 }
 ```
 
@@ -504,7 +504,7 @@ Set up a project's public gateway (needed for external access):
 identity  = Fog::Identity::OpenStack.new(@connection_params)
 
 tenants = identity.projects.select do |project|
-  project.name == @connection_params[:openstack_project_name]
+  project.name == @connection_params[:huaweicloud_project_name]
 end
 
 tenant_id = tenants[0].id
@@ -541,7 +541,7 @@ neutron.add_router_interface router.id, subnet.id
 
 ```
 $ git clone https://github.com/fog/fog-openstack.git # Clone repository
-$ cd fog-openstack; bin/setup   # Install dependencies from project directory
+$ cd fog-huaweicloud; bin/setup   # Install dependencies from project directory
 $ bundle exec rake test   # Run tests
 $ bundle exec rake spec   # Run tests
 $ bin/console   # Run interactive prompt that allows you to experiment (optional)

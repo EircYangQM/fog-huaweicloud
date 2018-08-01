@@ -1,4 +1,4 @@
-require 'fog/dns/openstack'
+require 'fog/dns/huaweicloud'
 
 module Fog
   module DNS

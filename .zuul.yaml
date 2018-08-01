@@ -8,7 +8,7 @@
     name: fog-huaweicloud-unittest-test
     parent: init-test
     description: |
-      fog-openstack unittest test tests
+      fog-huaweicloud unittest test tests
     run: playbooks/fog-huaweicloud-unittest-test/run.yaml
     vars:
       rvm:

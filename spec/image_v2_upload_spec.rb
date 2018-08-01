@@ -19,7 +19,7 @@ describe Fog::Image::HuaweiCloud do
         :huaweicloud_domain_name  => ENV['OS_USER_DOMAIN_NAME'] || 'Default'
       ) unless @service
 
-      spec_data_folder = 'spec/fixtures/openstack/image_v2'
+      spec_data_folder = 'spec/fixtures/huaweicloud/image_v2'
 
       begin
         ####
