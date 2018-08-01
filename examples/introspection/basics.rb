@@ -1,6 +1,6 @@
 
 require 'rubygems'
-require 'fog/openstack' # version >= 1.37
+require 'fog/huaweicloud' # version >= 1.37
 
 auth_url = "https://example.net:5000/v3/auth/tokens"
 username = 'admin@example.net'
@@ -8,17 +8,17 @@ password = 'secret'
 project  = 'admin'
 
 @connection_params = {
-  :openstack_auth_url     => auth_url,
-  :openstack_username     => username,
-  :openstack_api_key      => password,
-  :openstack_project_name => project,
-  :openstack_domain_id    => "default"
+  :huaweicloud_auth_url     => auth_url,
+  :huaweicloud_username     => username,
+  :huaweicloud_api_key      => password,
+  :huaweicloud_project_name => project,
+  :huaweicloud_domain_id    => "default"
 }
 
-inspector = Fog::Introspection::OpenStack.new(@connection_params)
+inspector = Fog::Introspection::HuaweiCloud.new(@connection_params)
 
 # Introspection of an Ironic node
-ironic = Fog::Baremetal::OpenStack.new(@connection_params)
+ironic = Fog::Baremetal::HuaweiCloud.new(@connection_params)
 nodes = ironic.list_nodes
 node1_uuid = nodes.body["nodes"][0]["uuid"]
 

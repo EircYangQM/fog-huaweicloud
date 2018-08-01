@@ -1,6 +1,6 @@
 # OpenStack Identity Service (Keystone) Example
 
-require 'fog/openstack'
+require 'fog/huaweicloud'
 require 'pp'
 
 auth_url = "https://example.net:35357/v3/auth/tokens"
@@ -11,11 +11,11 @@ domain = 'Default'
 
 
 
-keystone = Fog::Identity::OpenStack.new :openstack_auth_url => auth_url,
-                                        :openstack_username => username,
-                                        :openstack_api_key  => password,
-                                        :openstack_project_name => project,
-                                        :openstack_domain_name => domain
+keystone = Fog::Identity::HuaweiCloud.new :huaweicloud_auth_url => auth_url,
+                                        :huaweicloud_username => username,
+                                        :huaweicloud_api_key  => password,
+                                        :huaweicloud_project_name => project,
+                                        :huaweicloud_domain_name => domain
                                         # Optional, self-signed certs
                                         #:connection_options => { :ssl_verify_peer => false }
 
@@ -23,7 +23,7 @@ keystone = Fog::Identity::OpenStack.new :openstack_auth_url => auth_url,
 # List keystone projects
 #
 keystone.projects.each do |project|
-  #<Fog::Identity::OpenStack::V3::Project
+  #<Fog::Identity::HuaweiCloud::V3::Project
   #  id="17775c",
   #  domain_id="default",
   #  description="admin tenant",
@@ -42,7 +42,7 @@ end
 # List users
 #
 keystone.users.each do |user|
-  #<Fog::Identity::OpenStack::V3::User
+  #<Fog::Identity::HuaweiCloud::V3::User
   #  id="02124b...",
   #  default_project_id=2f534e...,
   #  description=nil,

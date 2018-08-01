@@ -1,15 +1,15 @@
 # OpenStack Identity Service (Keystone) Example
 
-require 'fog/openstack'
+require 'fog/huaweicloud'
 require 'pp'
 
 auth_url = "https://example.net/v2.0/tokens"
 username = 'admin@example.net'
 password = 'secret'
 
-keystone = Fog::Identity::OpenStack.new :openstack_auth_url => auth_url,
-                                        :openstack_username => username,
-                                        :openstack_api_key  => password
+keystone = Fog::Identity::HuaweiCloud.new :huaweicloud_auth_url => auth_url,
+                                        :huaweicloud_username => username,
+                                        :huaweicloud_api_key  => password
                                         # Optional, self-signed certs
                                         #:connection_options => { :ssl_verify_peer => false }
 
@@ -17,7 +17,7 @@ keystone = Fog::Identity::OpenStack.new :openstack_auth_url => auth_url,
 # Listing keystone tenants
 #
 keystone.tenants.each do |tenant|
-  # <Fog::Identity::OpenStack::Tenant
+  # <Fog::Identity::HuaweiCloud::Tenant
   #   id="46b4ab...",
   #   description=nil,
   #   enabled=1,
@@ -30,7 +30,7 @@ end
 # List users
 #
 keystone.users.each do |user|
-  # <Fog::Identity::OpenStack::User
+  # <Fog::Identity::HuaweiCloud::User
   #   id="c975f...",
   #   email="quantum@example.net",
   #   enabled=true,

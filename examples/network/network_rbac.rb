@@ -1,4 +1,4 @@
-require 'fog/openstack'
+require 'fog/huaweicloud'
 require 'pp'
 
 #
@@ -20,17 +20,17 @@ require 'pp'
 #  SSL_VERIFY=false
 
 auth_options = {
-  :openstack_auth_url     => "#{ENV['OS_AUTH_URL']}/auth/tokens",
-  :openstack_api_key      => ENV['OS_PASSWORD'],
-  :openstack_username     => ENV['OS_USERNAME'],
-  :openstack_domain_name  => ENV['OS_USER_DOMAIN_NAME'],
-  :openstack_project_name => ENV['OS_PROJECT_NAME'],
-  :openstack_region       => ENV['OS_REGION_NAME'],
+  :huaweicloud_auth_url     => "#{ENV['OS_AUTH_URL']}/auth/tokens",
+  :huaweicloud_api_key      => ENV['OS_PASSWORD'],
+  :huaweicloud_username     => ENV['OS_USERNAME'],
+  :huaweicloud_domain_name  => ENV['OS_USER_DOMAIN_NAME'],
+  :huaweicloud_project_name => ENV['OS_PROJECT_NAME'],
+  :huaweicloud_region       => ENV['OS_REGION_NAME'],
   :connection_options     => {:ssl_verify_peer => ENV['SSL_VERIFY'] != 'false'}
 }
 
-identity_service = Fog::Identity::OpenStack::V3.new(auth_options)
-network_service  = Fog::Network::OpenStack.new(auth_options)
+identity_service = Fog::Identity::HuaweiCloud::V3.new(auth_options)
+network_service  = Fog::Network::HuaweiCloud.new(auth_options)
 
 own_project   = identity_service.projects.select { |p| p.name == ENV['OS_PROJECT_NAME'] }.first
 other_project = identity_service.projects.select { |p| p.name != ENV['OS_PROJECT_NAME'] }.first

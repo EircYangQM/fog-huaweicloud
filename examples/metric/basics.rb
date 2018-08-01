@@ -1,4 +1,4 @@
-require 'fog/openstack'
+require 'fog/huaweicloud'
 require 'time'
 
 auth_url = "http://10.0.0.13:5000/v3/auth/tokens"
@@ -7,16 +7,16 @@ password = 'njXDF8bKr68RQsfbANvURzkmT'
 project  = 'admin'
 
 @connection_params = {
-    :openstack_auth_url     => auth_url,
-    :openstack_username     => username,
-    :openstack_api_key      => password,
-    :openstack_project_name => project,
-    :openstack_domain_id    => "default"
+    :huaweicloud_auth_url     => auth_url,
+    :huaweicloud_username     => username,
+    :huaweicloud_api_key      => password,
+    :huaweicloud_project_name => project,
+    :huaweicloud_domain_id    => "default"
 }
 
 puts "### SERVICE CONNECTION ###"
 
-metric = Fog::Metric::OpenStack.new(@connection_params)
+metric = Fog::Metric::HuaweiCloud.new(@connection_params)
 
 p metric
 

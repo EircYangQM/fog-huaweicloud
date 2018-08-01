@@ -1,5 +1,5 @@
-require 'fog/openstack'
-require 'fog/workflow/openstack/v2'
+require 'fog/huaweicloud'
+require 'fog/workflow/huaweicloud/v2'
 
 auth_url = "http://192.0.2.1:5000/v3/auth/tokens"
 username = "admin"
@@ -7,14 +7,14 @@ password = "1b1d81f7e25b53e497246b168971823c5754f395"
 project  = "admin"
 
 @connection_params = {
-  :openstack_auth_url     => auth_url,
-  :openstack_username     => username,
-  :openstack_api_key      => password,
-  :openstack_project_name => project,
-  :openstack_domain_id    => "default",
+  :huaweicloud_auth_url     => auth_url,
+  :huaweicloud_username     => username,
+  :huaweicloud_api_key      => password,
+  :huaweicloud_project_name => project,
+  :huaweicloud_domain_id    => "default",
 }
 
-cinder = Fog::Volume::OpenStack.new(@connection_params)
+cinder = Fog::Volume::HuaweiCloud.new(@connection_params)
 
 puts "INFO: create backup of existing volume named test"
 

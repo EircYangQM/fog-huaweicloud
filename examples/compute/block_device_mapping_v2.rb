@@ -1,17 +1,17 @@
 # OpenStack Compute (Nova) Example
 
-require 'fog/openstack'
+require 'fog/huaweicloud'
 
 auth_url = "https://example.net/v2.0/tokens"
 username = 'admin@example.net'
 password = 'secret'
 tenant   = 'My Compute Tenant' # String
 
-compute_client ||= ::Fog::Compute::OpenStack.new(
-  :openstack_api_key  => password,
-  :openstack_username => username,
-  :openstack_auth_url => auth_url,
-  :openstack_tenant   => tenant
+compute_client ||= ::Fog::Compute::HuaweiCloud.new(
+  :huaweicloud_api_key  => password,
+  :huaweicloud_username => username,
+  :huaweicloud_auth_url => auth_url,
+  :huaweicloud_tenant   => tenant
 )
 
 _vm = compute_client.servers.create(

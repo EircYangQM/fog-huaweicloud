@@ -1,6 +1,6 @@
 # OpenStack Planning Service (Tuskar) Example
 
-require 'fog/openstack'
+require 'fog/huaweicloud'
 require 'pp'
 
 auth_url = "https://example.net/v2.0/tokens"
@@ -8,12 +8,12 @@ username = 'admin@example.net'
 password = 'secret'
 tenant   = 'My Compute Tenant' # String
 
-planning ||= ::Fog::OpenStack.new(
+planning ||= ::Fog::HuaweiCloud.new(
   :service            => :planning,
-  :openstack_api_key  => password,
-  :openstack_username => username,
-  :openstack_auth_url => auth_url,
-  :openstack_tenant   => tenant
+  :huaweicloud_api_key  => password,
+  :huaweicloud_username => username,
+  :huaweicloud_auth_url => auth_url,
+  :huaweicloud_tenant   => tenant
 )
 
 pp planning

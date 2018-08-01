@@ -1,18 +1,18 @@
 # OpenStack Container Infra (Magnum) Example
-require 'fog/openstack'
+require 'fog/huaweicloud'
 
 # Initialize a connection to the Magnum API
 params = {
-  openstack_auth_url:     'https://example.net/v3/auth/tokens',
-  openstack_username:     'username',
-  openstack_api_key:      'password',
-  openstack_project_name: 'magnum'
+  huaweicloud_auth_url:     'https://example.net/v3/auth/tokens',
+  huaweicloud_username:     'username',
+  huaweicloud_api_key:      'password',
+  huaweicloud_project_name: 'magnum'
 }
 
-container_infra = Fog::ContainerInfra::OpenStack.new(params)
+container_infra = Fog::ContainerInfra::HuaweiCloud.new(params)
 
 # Get the Fedora Atomic image
-image = Fog::Image::OpenStack.new(params)
+image = Fog::Image::HuaweiCloud.new(params)
 
 unless image.images.map(&:name).include?("fedora-atomic-latest")
   puts "Couldn't find Fedora Atomic. Uploading to Glance..."
