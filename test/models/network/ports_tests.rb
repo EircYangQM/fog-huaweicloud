@@ -1,6 +1,6 @@
 require "test_helper"
 
-describe "Fog::Network[:openstack] | ports" do
+describe "Fog::Network[:huaweicloud] | ports" do
   before do
     @port = network.ports.create(
       :name           => 'port_name',

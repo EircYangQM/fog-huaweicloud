@@ -1,8 +1,8 @@
 require "test_helper"
 
-describe "Fog::Identity[:openstack] | ec2_credentials" do
+describe "Fog::Identity[:huaweicloud] | ec2_credentials" do
   before do
-    identity = Fog::Identity[:openstack]
+    identity = Fog::Identity[:huaweicloud]
     tenant_id = identity.list_tenants.body['tenants'].first['id']
 
     @user = identity.users.find { |user| user.name == 'foobar' }
@@ -47,7 +47,7 @@ describe "Fog::Identity[:openstack] | ec2_credentials" do
       unless Fog.mocking?
         proc do
           @user.ec2_credentials.find_by_access_key('fake')
-        end.must_raise(Fog::Identity::OpenStack::NotFound)
+        end.must_raise(Fog::Identity::HuaweiCloud::NotFound)
       end
     end
 
@@ -55,7 +55,7 @@ describe "Fog::Identity[:openstack] | ec2_credentials" do
       unless Fog.mocking?
         proc do
           @user.ec2_credentials.destroy('fake')
-        end.must_raise(Fog::Identity::OpenStack::NotFound)
+        end.must_raise(Fog::Identity::HuaweiCloud::NotFound)
       end
     end
   end

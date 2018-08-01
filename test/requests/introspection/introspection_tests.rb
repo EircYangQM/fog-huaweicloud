@@ -1,8 +1,8 @@
 require "test_helper"
 
-describe "Fog::Introspection::OpenStack | Introspection requests" do
+describe "Fog::Introspection::HuaweiCloud | Introspection requests" do
   before do
-    @inspector = Fog::Introspection::OpenStack.new
+    @inspector = Fog::Introspection::HuaweiCloud.new
 
     @node_uuid = Fog::UUID.uuid
 

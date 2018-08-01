@@ -1,6 +1,6 @@
 require "test_helper"
 
-describe "Fog::Network[:openstack] | ipsec_policy" do
+describe "Fog::Network[:huaweicloud] | ipsec_policy" do
   describe "success" do
     before do
       @instance = network.ipsec_policies.create(

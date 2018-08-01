@@ -1,10 +1,10 @@
 require "test_helper"
-require 'fog/workflow/openstack'
-require 'fog/workflow/openstack/v2'
+require 'fog/workflow/huaweicloud'
+require 'fog/workflow/huaweicloud/v2'
 
-describe "Fog::Workflow::OpenStack | Workflow requests" do
+describe "Fog::Workflow::HuaweiCloud | Workflow requests" do
   before do
-    @workflow = Fog::Workflow::OpenStack.new
+    @workflow = Fog::Workflow::HuaweiCloud.new
     @execution_id = Fog::UUID.uuid
 
     @workflow_name = "tripleo.plan_management.v1.create_default_deployment_plan"

@@ -2,9 +2,9 @@ require "test_helper"
 
 require File.expand_path(File.join(File.dirname(__FILE__), 'helper'))
 
-describe "Fog::Identity[:openstack] | tenant requests" do
+describe "Fog::Identity[:huaweicloud] | tenant requests" do
   before do
-    @identity = Fog::Identity[:openstack]
+    @identity = Fog::Identity[:huaweicloud]
 
     @tenant_format = {
       'id'          => String,
@@ -29,7 +29,7 @@ describe "Fog::Identity[:openstack] | tenant requests" do
 
     it "#list_roles_for_user_on_tenant(0,1)" do
       @identity.list_roles_for_user_on_tenant(
-        @identity.current_tenant['id'], OpenStack::Identity.get_user_id(@identity)
+        @identity.current_tenant['id'], HuaweiCloud::Identity.get_user_id(@identity)
       ).body.must_match_schema('roles' => [@role_format])
     end
 

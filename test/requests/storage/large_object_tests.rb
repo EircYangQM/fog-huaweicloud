@@ -1,8 +1,8 @@
 require "test_helper"
 
-describe "Fog::Storage[:openstack] | large object requests" do
+describe "Fog::Storage[:huaweicloud] | large object requests" do
   before do
-    @storage = Fog::Storage[:openstack]
+    @storage = Fog::Storage[:huaweicloud]
 
     unless Fog.mocking?
       @directory  = @storage.directories.create(:key => 'foglargeobjecttests')
@@ -90,7 +90,7 @@ describe "Fog::Storage[:openstack] | large object requests" do
           end
 
           # When the manifest object name is equal to the segment prefix,
-          # OpenStack treats it as if it's the first segment.
+          # HuaweiCloud treats it as if it's the first segment.
           # So you must prepend the manifest object's Etag - Digest::MD5.hexdigest('')
           it "#head_object returns Etag that includes manifest object in calculation" do
             unless Fog.mocking?
@@ -280,7 +280,7 @@ describe "Fog::Storage[:openstack] | large object requests" do
         unless Fog.mocking?
           proc do
             @storage.put_dynamic_obj_manifest('fognoncontainer', 'fog_large_object')
-          end.must_raise Fog::Storage::OpenStack::NotFound
+          end.must_raise Fog::Storage::HuaweiCloud::NotFound
         end
       end
     end
@@ -290,7 +290,7 @@ describe "Fog::Storage[:openstack] | large object requests" do
         unless Fog.mocking?
           proc do
             @storage.put_static_obj_manifest('fognoncontainer', 'fog_large_object', [])
-          end.must_raise Fog::Storage::OpenStack::NotFound
+          end.must_raise Fog::Storage::HuaweiCloud::NotFound
         end
       end
 

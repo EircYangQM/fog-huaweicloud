@@ -1,6 +1,6 @@
 require "test_helper"
 
-describe "Fog::Network[:openstack] | lb_pool" do
+describe "Fog::Network[:huaweicloud] | lb_pool" do
   describe "success" do
     before do
       @lb_health_monitor = network.lb_health_monitors.create(

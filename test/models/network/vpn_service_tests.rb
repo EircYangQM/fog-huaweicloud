@@ -1,6 +1,6 @@
 require "test_helper"
 
-describe "Fog::Network[:openstack] | vpn_service" do
+describe "Fog::Network[:huaweicloud] | vpn_service" do
   describe "success" do
     before do
       @instance = network.vpn_services.create(

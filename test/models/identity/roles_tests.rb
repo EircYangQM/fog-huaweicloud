@@ -1,8 +1,8 @@
 require "test_helper"
 
-describe "Fog::Identity[:openstack] | roles" do
+describe "Fog::Identity[:huaweicloud] | roles" do
   before do
-    @identity = Fog::Identity[:openstack]
+    @identity = Fog::Identity[:huaweicloud]
 
     @tenant   = @identity.tenants.create(:name => 'test_user')
     @user     = @identity.users.create(:name => 'test_user', :tenant_id => @tenant.id, :password => 'spoof')
@@ -18,7 +18,7 @@ describe "Fog::Identity[:openstack] | roles" do
 
   describe "success" do
     it "#all" do
-      @roles.all.must_be_kind_of Fog::Identity::OpenStack::V2::Roles
+      @roles.all.must_be_kind_of Fog::Identity::HuaweiCloud::V2::Roles
     end
 
     it "#get" do

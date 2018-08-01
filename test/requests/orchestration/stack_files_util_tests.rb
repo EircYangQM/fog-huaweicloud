@@ -3,10 +3,10 @@ require "yaml"
 require "open-uri"
 
 def travis?
-  File.exist?('/home/travis/build/fog/fog-openstack')
+  File.exist?('/home/travis/build/fog/fog-huaweicloud')
 end
 
-describe "Fog::Orchestration[:openstack] | stack requests" do
+describe "Fog::Orchestration[:huaweicloud] | stack requests" do
   @create_format_files = {
     'id'    => String,
     'links' => Array,
@@ -19,7 +19,7 @@ describe "Fog::Orchestration[:openstack] | stack requests" do
     @data = YAML.load_file("stack_files_util_tests.yaml")
     @template_yaml = YAML.load_file("template.yaml")
     @local_yaml = YAML.load_file("local.yaml")
-    @orchestration = Fog::Orchestration[:openstack]
+    @orchestration = Fog::Orchestration[:huaweicloud]
     @file_resolver = Fog::Orchestration::Util::RecursiveHotFileLoader.new({})
   end
   after do

@@ -1,18 +1,18 @@
 require "test_helper"
 
-describe "Fog::Image[:openstack] | image requests" do
+describe "Fog::Image[:huaweicloud] | image requests" do
   before(:all) do
-    openstack = Fog::Identity[:openstack]
+    huaweicloud = Fog::Identity[:huaweicloud]
 
     @image_attributes = {
       :name             => 'new image',
-      :owner            => openstack.current_tenant['id'],
+      :owner            => huaweicloud.current_tenant['id'],
       :is_public        => true,
       :copy_from        => 'http://website.com/image.iso',
       :disk_format      => 'iso',
       :properties       => {
-        :user_id  => openstack.current_user['id'],
-        :owner_id => openstack.current_tenant['id']
+        :user_id  => huaweicloud.current_user['id'],
+        :owner_id => huaweicloud.current_tenant['id']
       },
       :container_format => 'bare'
     }
@@ -90,7 +90,7 @@ describe "Fog::Image[:openstack] | image requests" do
       image_attributes[:location] = @test_iso.path
     end
 
-    @instance = Fog::Image[:openstack].create_image(image_attributes).body
+    @instance = Fog::Image[:huaweicloud].create_image(image_attributes).body
   end
 
   after do
@@ -99,11 +99,11 @@ describe "Fog::Image[:openstack] | image requests" do
 
   describe "success" do
     it "#list_public_images" do
-      Fog::Image[:openstack].list_public_images.body.must_match_schema('images' => [@image_format])
+      Fog::Image[:huaweicloud].list_public_images.body.must_match_schema('images' => [@image_format])
     end
 
     it "#list_public_images_detailed" do
-      Fog::Image[:openstack].list_public_images_detailed.body.
+      Fog::Image[:huaweicloud].list_public_images_detailed.body.
         must_match_schema('images' => [@detailed_image_format])
     end
 
@@ -112,12 +112,12 @@ describe "Fog::Image[:openstack] | image requests" do
     end
 
     it "#get_image" do
-      Fog::Image[:openstack].get_image(@instance['image']['id']).headers.
+      Fog::Image[:huaweicloud].get_image(@instance['image']['id']).headers.
         must_match_schema(@image_meta_format)
     end
 
     it "#update_image" do
-      Fog::Image[:openstack].update_image(
+      Fog::Image[:huaweicloud].update_image(
         :id   => @instance['image']['id'],
         :name => 'edit image'
       ).body['image'].must_match_schema(@detailed_image_format)
@@ -125,30 +125,30 @@ describe "Fog::Image[:openstack] | image requests" do
 
     it "#add_member_to_image" do
       [200, 204].must_include(
-        Fog::Image[:openstack].add_member_to_image(
+        Fog::Image[:huaweicloud].add_member_to_image(
           @instance['image']['id'], @instance['image']['owner']
         ).status
       )
     end
 
     it "#get_image_members" do
-      [200, 204].must_include(Fog::Image[:openstack].get_image_members(@instance['image']['id']).status)
+      [200, 204].must_include(Fog::Image[:huaweicloud].get_image_members(@instance['image']['id']).status)
     end
 
     it "#get_shared_images" do
-      [200, 204].must_include(Fog::Image[:openstack].get_shared_images(@instance['image']['owner']).status)
+      [200, 204].must_include(Fog::Image[:huaweicloud].get_shared_images(@instance['image']['owner']).status)
     end
 
     it "#remove_member_from_image" do
       [200, 204].must_include(
-        Fog::Image[:openstack].remove_member_from_image(
+        Fog::Image[:huaweicloud].remove_member_from_image(
           @instance['image']['id'], @instance['image']['owner']
         ).status
       )
     end
 
     it "#delete_image" do
-      Fog::Image[:openstack].delete_image(@instance['image']['id']).status.must_equal 200
+      Fog::Image[:huaweicloud].delete_image(@instance['image']['id']).status.must_equal 200
     end
   end
 end

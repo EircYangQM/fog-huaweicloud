@@ -1,8 +1,8 @@
 require "test_helper"
 
-describe "Fog::DNS::OpenStack::V1 | domain requests" do
+describe "Fog::DNS::HuaweiCloud::V1 | domain requests" do
   before do
-    @dns = Fog::DNS::OpenStack::V1.new
+    @dns = Fog::DNS::HuaweiCloud::V1.new
 
     @domain_format = {
       "id"          => String,

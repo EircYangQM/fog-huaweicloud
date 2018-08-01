@@ -1,6 +1,6 @@
 require "test_helper"
 
-describe "Fog::Network[:openstack] | ipsec_site_connection" do
+describe "Fog::Network[:huaweicloud] | ipsec_site_connection" do
   describe "success" do
     before do
       params = {

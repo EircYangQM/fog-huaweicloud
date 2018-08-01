@@ -1,6 +1,6 @@
 require "test_helper"
 
-describe "Fog::Network[:openstack] | lb_members" do
+describe "Fog::Network[:huaweicloud] | lb_members" do
   before do
     @lb_member = network.lb_members.create(
       :pool_id       => 'pool_id',

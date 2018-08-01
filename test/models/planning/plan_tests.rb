@@ -1,9 +1,9 @@
 require "test_helper"
 
-describe "Fog::OpenStack[:planning] | plan" do
+describe "Fog::HuaweiCloud[:planning] | plan" do
   describe "success" do
     before do
-      @planning = Fog::OpenStack[:planning]
+      @planning = Fog::HuaweiCloud[:planning]
       @instance = @planning.plans.first
       @role = @planning.list_roles.body.first
     end
@@ -45,7 +45,7 @@ describe "Fog::OpenStack[:planning] | plan" do
     end
 
     it "#save" do
-      @instance.save.must_be_kind_of Fog::OpenStack::Planning::Plan
+      @instance.save.must_be_kind_of Fog::HuaweiCloud::Planning::Plan
     end
 
     it "#update" do
@@ -57,7 +57,7 @@ describe "Fog::OpenStack[:planning] | plan" do
     end
 
     it "#create" do
-      @instance.create.must_be_kind_of Fog::OpenStack::Planning::Plan
+      @instance.create.must_be_kind_of Fog::HuaweiCloud::Planning::Plan
     end
   end
 end

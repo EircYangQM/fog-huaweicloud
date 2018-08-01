@@ -1,7 +1,7 @@
 require "test_helper"
 require "helpers/nfv_helper"
 
-describe "Fog::NFV[:openstack] | vnfs" do
+describe "Fog::NFV[:huaweicloud] | vnfs" do
   describe "success" do
     before do
       @nfv, @vnf_data, @auth = set_nfv_data

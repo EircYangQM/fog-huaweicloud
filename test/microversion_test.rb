@@ -1,3 +1,4 @@
+puts "====microversion"
 require "test_helper"
 
 describe "when microversion" do
@@ -32,7 +33,7 @@ describe "when microversion" do
   end
 
   class TestMicroVersion
-    include Fog::OpenStack::Core
+    include Fog::HuaweiCloud::Core
     public :headers
   end
 end

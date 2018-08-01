@@ -1,6 +1,6 @@
 require "test_helper"
 
-describe "OpenStack | versions, ['openstack']" do
+describe "HuaweiCloud | versions, ['huaweicloud']" do
   before do
     @old_mock_value = Excon.defaults[:mock]
     Excon.defaults[:mock] = true
@@ -47,7 +47,7 @@ describe "OpenStack | versions, ['openstack']" do
                {:status => 300, :body => Fog::JSON.encode(@body)})
 
     assert("v1.1") do
-      Fog::OpenStack.get_supported_version(/v1(\.(0|1))*/,
+      Fog::HuaweiCloud.get_supported_version(/v1(\.(0|1))*/,
                                            URI('http://example/'),
                                            "authtoken")
     end
@@ -60,12 +60,12 @@ describe "OpenStack | versions, ['openstack']" do
     )
 
     proc do
-      Fog::OpenStack.get_supported_version(
+      Fog::HuaweiCloud.get_supported_version(
         /v3(\.(0|1))*/,
         URI('http://example/'),
         "authtoken"
       )
-    end.must_raise Fog::OpenStack::Errors::ServiceUnavailable
+    end.must_raise Fog::HuaweiCloud::Errors::ServiceUnavailable
   end
 
   after do

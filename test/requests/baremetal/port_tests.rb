@@ -1,8 +1,8 @@
 require "test_helper"
 
-describe "Fog::Baremetal[:openstack] | Baremetal port requests" do
+describe "Fog::Baremetal[:huaweicloud] | Baremetal port requests" do
   before do
-    @baremetal = Fog::Baremetal[:openstack]
+    @baremetal = Fog::Baremetal[:huaweicloud]
 
     @port_format = {
       'address' => String,
@@ -31,13 +31,13 @@ describe "Fog::Baremetal[:openstack] | Baremetal port requests" do
 
     before do
       node_attributes = {:driver => 'pxe_ipmitool'}
-      @instance = Fog::Baremetal[:openstack].create_node(node_attributes).body
+      @instance = Fog::Baremetal[:huaweicloud].create_node(node_attributes).body
 
       port_attributes = {
         :address   => '00:c2:08:85:de:ca',
         :node_uuid => @instance['uuid']
       }
-      @port = Fog::Baremetal[:openstack].create_port(port_attributes).body
+      @port = Fog::Baremetal[:huaweicloud].create_port(port_attributes).body
     end
 
     it "#create_port" do

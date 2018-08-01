@@ -1,8 +1,8 @@
 require "test_helper"
 
-describe "Fog::Identity[:openstack] | ec2_credential" do
+describe "Fog::Identity[:huaweicloud] | ec2_credential" do
   before do
-    identity = Fog::Identity[:openstack]
+    identity = Fog::Identity[:huaweicloud]
     tenant_id = identity.list_tenants.body['tenants'].first['id']
 
     @user = identity.users.find { |user| user.name == 'foobar' }

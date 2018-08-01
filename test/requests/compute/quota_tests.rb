@@ -1,8 +1,8 @@
 require "test_helper"
 
-describe "Fog::Compute[:openstack] | quota requests" do
+describe "Fog::Compute[:huaweicloud] | quota requests" do
   before do
-    @tenant_id = Fog::Compute[:openstack].list_tenants.body['tenants'].first['id']
+    @tenant_id = Fog::Compute[:huaweicloud].list_tenants.body['tenants'].first['id']
     @quota_set_format = {
       'key_pairs'                   => Integer,
       'metadata_items'              => Integer,
@@ -20,7 +20,7 @@ describe "Fog::Compute[:openstack] | quota requests" do
       'id'                          => String
     }
 
-    @compute = Fog::Compute[:openstack]
+    @compute = Fog::Compute[:huaweicloud]
     @quota = @compute.get_quota(@tenant_id).body['quota_set']
   end
 

@@ -1,8 +1,8 @@
 require 'test_helper'
 
-describe "Fog::Volume[:openstack] | volume_type requests" do
+describe "Fog::Volume[:huaweicloud] | volume_type requests" do
   before do
-    @volume = Fog::Volume[:openstack]
+    @volume = Fog::Volume[:huaweicloud]
 
     @volume_type_format = {
       'name'        => String,

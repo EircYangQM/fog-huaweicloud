@@ -2,9 +2,9 @@ require "test_helper"
 
 require File.expand_path(File.join(File.dirname(__FILE__), 'helper'))
 
-describe "Fog::Identity[:openstack] | user requests" do
+describe "Fog::Identity[:huaweicloud] | user requests" do
   before do
-    @identity = Fog::Identity[:openstack]
+    @identity = Fog::Identity[:huaweicloud]
 
     @user_format = {
       'id'       => String,
@@ -19,7 +19,7 @@ describe "Fog::Identity[:openstack] | user requests" do
 
     @user = @identity.create_user(
       @user_name, "mypassword", "morph@example.com",
-      OpenStack::Identity.get_tenant_id(@identity)
+      HuaweiCloud::Identity.get_tenant_id(@identity)
     ).body['user']
   end
 

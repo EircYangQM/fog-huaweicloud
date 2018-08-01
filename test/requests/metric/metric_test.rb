@@ -1,8 +1,8 @@
 require "test_helper"
 
-describe "Fog::Metric::OpenStack | metric requests" do
+describe "Fog::Metric::HuaweiCloud | metric requests" do
   before do
-    @metric = Fog::Metric::OpenStack.new
+    @metric = Fog::Metric::HuaweiCloud.new
   end
 
   describe "success" do

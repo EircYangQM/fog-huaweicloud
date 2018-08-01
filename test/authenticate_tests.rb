@@ -1,6 +1,6 @@
 require 'test_helper'
 
-describe "OpenStack authentication" do
+describe "HuaweiCloud authentication" do
   before do
     @old_mock_value = Excon.defaults[:mock]
     Excon.defaults[:mock] = true
@@ -94,18 +94,18 @@ describe "OpenStack authentication" do
     }
 
     assert(expected) do
-      Fog::OpenStack.authenticate_v2(
-        :openstack_auth_uri     => URI('http://example/v2.0/tokens'),
-        :openstack_tenant       => 'admin',
-        :openstack_service_type => %w[compute]
+      Fog::HuaweiCloud.authenticate_v2(
+        :huaweicloud_auth_uri     => URI('http://example/v2.0/tokens'),
+        :huaweicloud_tenant       => 'admin',
+        :huaweicloud_service_type => %w[compute]
       )
     end
   end
 
   it "validates token" do
     old_credentials = Fog.credentials
-    Fog.credentials = {:openstack_auth_url => 'http://openstack:35357/v2.0/tokens'}
-    identity = Fog::Identity[:openstack]
+    Fog.credentials = {:huaweicloud_auth_url => 'http://huaweicloud:35357/v2.0/tokens'}
+    identity = Fog::Identity[:huaweicloud]
     identity.validate_token(@token, @tenant_token)
     identity.validate_token(@token)
     Fog.credentials = old_credentials
@@ -113,8 +113,8 @@ describe "OpenStack authentication" do
 
   it "checks token" do
     old_credentials = Fog.credentials
-    Fog.credentials = {:openstack_auth_url => 'http://openstack:35357/v2.0/tokens'}
-    identity = Fog::Identity[:openstack]
+    Fog.credentials = {:huaweicloud_auth_url => 'http://huaweicloud:35357/v2.0/tokens'}
+    identity = Fog::Identity[:huaweicloud]
     identity.check_token(@token, @tenant_token)
     identity.check_token(@token)
     Fog.credentials = old_credentials
@@ -127,10 +127,10 @@ describe "OpenStack authentication" do
     )
 
     proc do
-      Fog::OpenStack.authenticate_v2(
-        :openstack_auth_uri     => URI('http://example/v2.0/tokens'),
-        :openstack_tenant       => 'admin',
-        :openstack_service_type => %w[network]
+      Fog::HuaweiCloud.authenticate_v2(
+        :huaweicloud_auth_uri     => URI('http://example/v2.0/tokens'),
+        :huaweicloud_tenant       => 'admin',
+        :huaweicloud_service_type => %w[network]
       )
     end.must_raise Fog::Errors::NotFound, 'Could not find service network.  Have compute, image'
   end
@@ -142,18 +142,18 @@ describe "OpenStack authentication" do
     )
 
     proc do
-      Fog::OpenStack.authenticate_v2(
-        :openstack_auth_uri     => URI('http://example/v2.0/tokens'),
-        :openstack_tenant       => 'admin',
-        :openstack_service_type => 'object-store'
+      Fog::HuaweiCloud.authenticate_v2(
+        :huaweicloud_auth_uri     => URI('http://example/v2.0/tokens'),
+        :huaweicloud_tenant       => 'admin',
+        :huaweicloud_service_type => 'object-store'
       )
     end.must_raise NoMethodError, "undefined method `join' for \"object-store\":String"
 
     proc do
-      Fog::OpenStack.authenticate_v2(
-        :openstack_auth_uri     => URI('http://example/v2.0/tokens'),
-        :openstack_tenant       => 'admin',
-        :openstack_service_type => %w[object-store]
+      Fog::HuaweiCloud.authenticate_v2(
+        :huaweicloud_auth_uri     => URI('http://example/v2.0/tokens'),
+        :huaweicloud_tenant       => 'admin',
+        :huaweicloud_service_type => %w[object-store]
       )
     end.must_raise Fog::Errors::NotFound, "Could not find service object-store.  Have compute, image"
   end
@@ -182,11 +182,11 @@ describe "OpenStack authentication" do
     )
 
     assert("http://example2:8774/v2/#{@tenant_token}") do
-      Fog::OpenStack.authenticate_v2(
-        :openstack_auth_uri     => URI('http://example/v2.0/tokens'),
-        :openstack_tenant       => 'admin',
-        :openstack_service_type => %w[compute],
-        :openstack_service_name => 'nova2')[:server_management_url]
+      Fog::HuaweiCloud.authenticate_v2(
+        :huaweicloud_auth_uri     => URI('http://example/v2.0/tokens'),
+        :huaweicloud_tenant       => 'admin',
+        :huaweicloud_service_type => %w[compute],
+        :huaweicloud_service_name => 'nova2')[:server_management_url]
     end
   end
 
@@ -205,11 +205,11 @@ describe "OpenStack authentication" do
     )
 
     assert("https://swift.myhost.com/v1/AUTH_tenant") do
-      Fog::OpenStack.authenticate_v1(
-        :openstack_auth_uri     => URI('https://swift.myhost.com/auth/v1.0'),
-        :openstack_username     => 'tenant:dev',
-        :openstack_api_key      => 'secret_key',
-        :openstack_service_type => %w[storage])[:server_management_url]
+      Fog::HuaweiCloud.authenticate_v1(
+        :huaweicloud_auth_uri     => URI('https://swift.myhost.com/auth/v1.0'),
+        :huaweicloud_username     => 'tenant:dev',
+        :huaweicloud_api_key      => 'secret_key',
+        :huaweicloud_service_type => %w[storage])[:server_management_url]
     end
   end
 

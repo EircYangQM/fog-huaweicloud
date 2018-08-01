@@ -2,7 +2,7 @@ require "test_helper"
 
 require "helpers/model_helper"
 
-describe "Fog::Network[:openstack] | security_group model" do
+describe "Fog::Network[:huaweicloud] | security_group model" do
   model_tests(network.security_groups, :name => "fogsecgroup")
 
   describe "success" do

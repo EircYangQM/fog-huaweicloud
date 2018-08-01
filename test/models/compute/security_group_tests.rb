@@ -1,8 +1,8 @@
 require "test_helper"
 
-describe "Fog::Compute[:openstack] | security_group" do
+describe "Fog::Compute[:huaweicloud] | security_group" do
   describe "success" do
-    let(:fog) { Fog::Compute[:openstack] }
+    let(:fog) { Fog::Compute[:huaweicloud] }
     let(:security_group) do
       fog.security_groups.create(
         :name        => 'my_group',

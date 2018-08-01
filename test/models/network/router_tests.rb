@@ -1,6 +1,6 @@
 require "test_helper"
 
-describe "Fog::Network[:openstack] | router" do
+describe "Fog::Network[:huaweicloud] | router" do
   describe "success" do
     before do
       @instance = network.routers.create(

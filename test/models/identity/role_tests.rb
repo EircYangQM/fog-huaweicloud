@@ -1,8 +1,8 @@
 require "test_helper"
 
-describe "Fog::Identity[:openstack] | role" do
+describe "Fog::Identity[:huaweicloud] | role" do
   before do
-    @identity = Fog::Identity[:openstack]
+    @identity = Fog::Identity[:huaweicloud]
     @instance = @identity.roles.new(
       :name    => 'Role Name',
       :user_id => 1,

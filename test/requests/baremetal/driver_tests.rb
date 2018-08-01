@@ -1,8 +1,8 @@
 require "test_helper"
 
-describe "Fog::Baremetal[:openstack] | Baremetal driver requests" do
+describe "Fog::Baremetal[:huaweicloud] | Baremetal driver requests" do
   before do
-    @baremetal = Fog::Baremetal[:openstack]
+    @baremetal = Fog::Baremetal[:huaweicloud]
 
     @driver_format = {
       'hosts' => Array,

@@ -1,6 +1,6 @@
 require "test_helper"
 
-describe "Fog::Network[:openstack] | ipsec_policies" do
+describe "Fog::Network[:huaweicloud] | ipsec_policies" do
   before do
     params = {
       :name                 => 'test-ipsec-policy',

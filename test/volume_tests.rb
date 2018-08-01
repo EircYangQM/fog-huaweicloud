@@ -1,11 +1,12 @@
 require 'test_helper'
 
-require 'fog/volume/openstack'
-require 'fog/volume/openstack/v1'
-require 'fog/volume/openstack/v2'
+require 'fog/core'
+require 'fog/volume/huaweicloud'
+require 'fog/volume/huaweicloud/v1'
+require 'fog/volume/huaweicloud/v2'
 
-describe "Fog::Volume[:openstack], ['openstack', 'volume']" do
-  volume = Fog::Volume[:openstack]
+describe "Fog::Volume[:huaweicloud], ['huaweicloud', 'volume']" do
+  volume = Fog::Volume[:huaweicloud]
 
   describe "Volumes collection" do
     %w{ volumes }.each do |collection|

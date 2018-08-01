@@ -1,6 +1,6 @@
 require "test_helper"
 
-describe "Fog::Network[:openstack] | floating_ips" do
+describe "Fog::Network[:huaweicloud] | floating_ips" do
   before do
     @floating_ip = network.floating_ips.create(
       :floating_network_id => 'f0000000-0000-0000-0000-000000000000'

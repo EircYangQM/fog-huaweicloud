@@ -1,6 +1,6 @@
 require "test_helper"
 
-describe "Fog::Network[:openstack] | subnets" do
+describe "Fog::Network[:huaweicloud] | subnets" do
   describe "success" do
     before do
       @subnet = network.subnets.create(

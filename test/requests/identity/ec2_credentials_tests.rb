@@ -2,9 +2,9 @@ require "test_helper"
 
 require File.expand_path(File.join(File.dirname(__FILE__), 'helper'))
 
-describe "Fog::Identity[:openstack] | EC2 credential requests" do
+describe "Fog::Identity[:huaweicloud] | EC2 credential requests" do
   before do
-    @identity = Fog::Identity[:openstack]
+    @identity = Fog::Identity[:huaweicloud]
 
     @credential_format = {
       'access'    => String,
@@ -13,8 +13,8 @@ describe "Fog::Identity[:openstack] | EC2 credential requests" do
       'user_id'   => String,
     }
 
-    @user_id = OpenStack::Identity.get_user_id(@identity)
-    @tenant_id = OpenStack::Identity.get_tenant_id(@identity)
+    @user_id = HuaweiCloud::Identity.get_user_id(@identity)
+    @tenant_id = HuaweiCloud::Identity.get_tenant_id(@identity)
 
     @response = @identity.create_ec2_credential(@user_id, @tenant_id)
     @ec2_credential = @response.body['credential']

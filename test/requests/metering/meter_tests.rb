@@ -1,8 +1,8 @@
 require "test_helper"
 
-describe "Fog::Metering[:openstack] | meter requests" do
+describe "Fog::Metering[:huaweicloud] | meter requests" do
   before do
-    @metering = Fog::Metering[:openstack]
+    @metering = Fog::Metering[:huaweicloud]
 
     @sample_format = {
       'counter_name'      => String,

@@ -1,6 +1,6 @@
 require "test_helper"
 
-describe "Fog::Network[:openstack] | ike_policy" do
+describe "Fog::Network[:huaweicloud] | ike_policy" do
   describe "success" do
     before do
       @instance = network.ike_policies.create(

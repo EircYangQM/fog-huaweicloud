@@ -2,7 +2,7 @@ require "test_helper"
 
 require File.expand_path(File.join(File.dirname(__FILE__), 'helper'))
 
-describe "Fog::Compute[:openstack] | image requests" do
+describe "Fog::Compute[:huaweicloud] | image requests" do
   before do
     @image_format = {
       'created'  => Fog::Nullable::String,
@@ -18,12 +18,12 @@ describe "Fog::Compute[:openstack] | image requests" do
       'links'    => Array
     }
 
-    @compute = Fog::Compute[:openstack]
+    @compute = Fog::Compute[:huaweicloud]
   end
 
   describe "success" do
     before do
-      @image_id = Fog::Compute[:openstack].images[0].id
+      @image_id = Fog::Compute[:huaweicloud].images[0].id
       unless Fog.mocking?
         @compute.images.get(@image_id).wait_for { ready? }
       end
@@ -38,7 +38,7 @@ describe "Fog::Compute[:openstack] | image requests" do
 
     it "#list_images" do
       @compute.list_images.body.
-        must_match_schema('images' => [OpenStack::Compute::Formats::SUMMARY])
+        must_match_schema('images' => [HuaweiCloud::Compute::Formats::SUMMARY])
     end
 
     it "#list_images_detail" do
@@ -58,7 +58,7 @@ describe "Fog::Compute[:openstack] | image requests" do
       unless Fog.mocking?
         proc do
           @compute.delete_image(0)
-        end.must_raise Fog::Compute::OpenStack::NotFound
+        end.must_raise Fog::Compute::HuaweiCloud::NotFound
       end
     end
 
@@ -66,7 +66,7 @@ describe "Fog::Compute[:openstack] | image requests" do
       unless Fog.mocking?
         proc do
           @compute.get_image_details(0)
-        end.must_raise Fog::Compute::OpenStack::NotFound
+        end.must_raise Fog::Compute::HuaweiCloud::NotFound
       end
     end
   end

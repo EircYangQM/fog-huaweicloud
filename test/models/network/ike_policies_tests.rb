@@ -1,6 +1,6 @@
 require "test_helper"
 
-describe "Fog::Network[:openstack] | ike_policies" do
+describe "Fog::Network[:huaweicloud] | ike_policies" do
   before do
     @ike_policy = network.ike_policies.create(
       :name                    => 'test-ike-policy',
