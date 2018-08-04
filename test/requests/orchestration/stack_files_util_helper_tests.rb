@@ -11,7 +11,11 @@ describe "Fog::Orchestration[:huaweicloud] | stack requests" do
   before do
     @oldcwd = Dir.pwd
     Dir.chdir("test/requests/orchestration")
-    @base_url = "file://" + File.absolute_path(".")
+    if RUBY_PLATFORM.include? "linux"
+      @base_url = "file://" + File.absolute_path(".")
+    else
+      @base_url = URI.join('', File.absolute_path(".")).to_s
+    end
     @data = YAML.load_file("stack_files_util_tests.yaml")
     @template_yaml = YAML.load_file("template.yaml")
     @local_yaml = YAML.load_file("local.yaml")

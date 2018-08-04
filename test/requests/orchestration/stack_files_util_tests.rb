@@ -15,7 +15,11 @@ describe "Fog::Orchestration[:huaweicloud] | stack requests" do
   before do
     @oldcwd = Dir.pwd
     Dir.chdir("test/requests/orchestration")
-    @base_url = "file://" + File.absolute_path(".")
+    if RUBY_PLATFORM.include? "linux"
+      @base_url = "file://" + File.absolute_path(".")
+    else
+      @base_url = URI.join('', File.absolute_path(".")).to_s
+    end
     @data = YAML.load_file("stack_files_util_tests.yaml")
     @template_yaml = YAML.load_file("template.yaml")
     @local_yaml = YAML.load_file("local.yaml")
@@ -100,13 +104,13 @@ describe "Fog::Orchestration[:huaweicloud] | stack requests" do
       template = file_resolver.template
 
       # The template argument should be modified.
-      assert(template['resources']['a_file']['type'].start_with?('file:///'), file_resolver.template)
+      assert(template['resources']['a_file']['type'].start_with?(@base_url), file_resolver.template)
 
       # Nested template argument should be modified.
       _, hot_1_yaml = file_resolver.files.select { |fpath, _| fpath.end_with?("hot_1.yaml") }.first
       hot_1_yaml = YAML.safe_load(hot_1_yaml)
       assert(
-        hot_1_yaml['resources']['a_file']['properties']['config']['get_file'].start_with?('file:///'),
+        hot_1_yaml['resources']['a_file']['properties']['config']['get_file'].start_with?(@base_url),
         hot_1_yaml['resources']['a_file']['properties']['config']['get_file']
       )
 
